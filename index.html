@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monsora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+  /* ============ Tokens ============ */
+  :root{
+    --bg:#FAF9F5;
+    --surface:#F1EEE6;
+    --surface-2:#FFFFFF;
+    --ink:#15130F;
+    --ink-soft:#6E6B60;
+    --ink-faint:#9A9689;
+    --line:#E4E0D3;
+    --accent:#564CE0;
+    --accent-soft:#ECE9FC;
+    --accent-2:#FF7A45;
+    --accent-2-soft:#FFE7D8;
+    --shadow-sm: 0 1px 2px rgba(21,19,15,.05);
+    --shadow-md: 0 10px 30px rgba(21,19,15,.07);
+    --r-lg:28px;
+    --r-md:20px;
+    --r-sm:12px;
+    --r-pill:999px;
+    --sans:"Manrope","Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+    --display:"Manrope","Noto Sans SC","PingFang SC",system-ui,sans-serif;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0F0E13;
+      --surface:#17161D;
+      --surface-2:#1C1B23;
+      --ink:#F2F0EA;
+      --ink-soft:#A7A3AE;
+      --ink-faint:#716D7A;
+      --line:#2B2A33;
+      --accent:#9089FF;
+      --accent-soft:#242049;
+      --accent-2:#FF9868;
+      --accent-2-soft:#3A2619;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+      --shadow-md: 0 10px 30px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F0E13;
+    --surface:#17161D;
+    --surface-2:#1C1B23;
+    --ink:#F2F0EA;
+    --ink-soft:#A7A3AE;
+    --ink-faint:#716D7A;
+    --line:#2B2A33;
+    --accent:#9089FF;
+    --accent-soft:#242049;
+    --accent-2:#FF9868;
+    --accent-2-soft:#3A2619;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+    --shadow-md: 0 10px 30px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  img{max-width:100%;}
+  [hidden]{display:none!important;}
+  html,body{margin:0;}
+  main{overflow-x:clip;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    html{scroll-behavior:smooth;}
+  }
+  h1,h2,h3{
+    font-family:var(--display);
+    font-weight:700;
+    letter-spacing:-0.02em;
+    text-wrap:balance;
+    margin:0;
+  }
+  html[lang="zh-CN"] h1,
+  html[lang="zh-CN"] h2,
+  html[lang="zh-CN"] h3{letter-spacing:0;line-height:1.3;}
+  html[lang="zh-CN"] .hero h1{line-height:1;}
+  h2{line-height:1.2;font-weight:800;}
+  html[lang="zh-CN"] h2{line-height:1.2;}
+  html[lang="zh-CN"] p{line-height:1.75;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{
+    width:100%;
+    max-width:1140px;
+    margin:0 auto;
+    padding-inline:24px;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono","Noto Sans SC",monospace;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+
+  /* ============ Buttons ============ */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    height:50px;
+    padding:0 26px;
+    border-radius:var(--r-pill);
+    font-size:15px;
+    font-weight:600;
+    font-family:var(--sans);
+    cursor:pointer;
+    border:1px solid transparent;
+    white-space:nowrap;
+    transition:transform .15s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--ink);color:var(--bg);}
+  .btn-primary:hover{opacity:.82;}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover{background:var(--surface);}
+  .btn-sm{height:42px;padding:0 20px;font-size:14px;}
+
+  /* ============ Header ============ */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease;
+  }
+  header.scrolled{border-bottom-color:var(--line);}
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    height:76px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:"Manrope",sans-serif;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:-0.01em;
+  }
+  .logo-mark{
+    width:26px;height:26px;border-radius:9px;
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    flex:none;
+  }
+  .logo-type{
+    display:inline-flex;
+    align-items:center;
+    min-width:5.2em;          /* reserve room so nothing shifts while typing */
+    white-space:nowrap;
+  }
+  .caret{
+    display:inline-block;
+    width:2px;
+    height:1.05em;
+    margin-left:2px;
+    background:var(--accent);
+    border-radius:1px;
+    opacity:0;
+  }
+  .logo-type.typing .caret{opacity:1;}
+  .logo-type.done .caret{animation:caretOut 1.4s steps(1) forwards;}
+  @keyframes caretOut{
+    0%{opacity:1;} 25%{opacity:0;} 50%{opacity:1;} 75%,100%{opacity:0;}
+  }
+  .nav-cta{display:flex;align-items:center;gap:10px;}
+
+  /* language switch */
+  .lang{
+    display:inline-flex;
+    padding:3px;
+    border:1px solid var(--line);
+    border-radius:var(--r-pill);
+    background:var(--surface-2);
+  }
+  .lang button{
+    appearance:none;
+    border:0;
+    background:transparent;
+    color:var(--ink-soft);
+    font:600 12.5px/1 var(--sans);
+    height:34px;
+    min-width:38px;
+    padding:0 10px;
+    border-radius:var(--r-pill);
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+  }
+  .lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg);}
+  .lang button:not([aria-pressed="true"]):hover{color:var(--ink);}
+  @media (max-width:600px){
+    .nav-cta .btn-ghost{display:none;}
+    .nav-cta .btn-sm{padding:0 16px;}
+  }
+  @media (max-width:400px){
+    .logo{font-size:17px;}
+    .nav-cta .btn-sm{font-size:13px;padding:0 13px;}
+    .lang button{min-width:32px;padding:0 8px;}
+  }
+
+  /* ============ Hero ============ */
+  .hero{
+    padding-top:88px;
+    padding-bottom:40px;
+    text-align:center;
+    position:relative;
+  }
+  .hero h1{
+    font-size:clamp(34px, 5.4vw, 60px);
+    line-height:1;
+    font-weight:800;
+    max-width:880px;
+    margin:22px auto 0;
+  }
+  .hero .lede{
+    max-width:600px;
+    margin:22px auto 0;
+    font-size:17.5px;
+    color:var(--ink-soft);
+  }
+  .hero-ctas{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:34px;
+    flex-wrap:wrap;
+  }
+  .hero-note{
+    margin-top:16px;
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+
+  /* ---- hero illustration ---- */
+  .hero-art{
+    position:relative;
+    height:300px;
+    max-width:720px;
+    margin:64px auto 0;
+  }
+  .glow{
+    position:absolute; inset:0 auto auto 50%;
+    width:480px;height:480px;
+    transform:translate(-50%,-38%);
+    background:radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 68%);
+    filter:blur(6px);
+    pointer-events:none;
+  }
+  .chip{
+    position:absolute;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:9px 14px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:var(--r-sm);
+    box-shadow:var(--shadow-sm);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+  .chip svg{width:14px;height:14px;flex:none;stroke:var(--ink-soft);}
+  .chip-1{top:4%;  left:6%;  transform:rotate(-7deg);}
+  .chip-2{top:0%;  left:40%; transform:rotate(4deg);}
+  .chip-3{top:8%;  right:4%; transform:rotate(9deg);}
+  .chip-4{top:38%; left:0%;  transform:rotate(-4deg);}
+  .chip-5{top:34%; right:2%; transform:rotate(6deg);}
+  .capsule-core{
+    position:absolute;
+    bottom:6%;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 26px;
+    border-radius:var(--r-pill);
+    background:var(--ink);
+    color:var(--bg);
+    box-shadow:var(--shadow-md);
+    font-family:"Manrope",sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    white-space:nowrap;
+  }
+  .capsule-core .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  }
+  .hero-art svg.links{
+    position:absolute; inset:0;
+    width:100%;height:100%;
+    overflow:visible;
+  }
+  .hero-art svg.links path{
+    fill:none;
+    stroke:var(--line);
+    stroke-width:1.5;
+    stroke-dasharray:3 5;
+  }
+
+  /* ============ Section scaffolding ============ */
+  section{padding-block:96px;}
+  .band{background:var(--surface);}
+  .section-head{max-width:640px;margin-bottom:48px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,38px);margin-top:14px;}
+  .section-head p{margin-top:16px;font-size:16.5px;color:var(--ink-soft);max-width:56ch;}
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  @media (max-width:760px){
+    .two-col{grid-template-columns:1fr;gap:28px;}
+    section{padding-block:64px;}
+  }
+
+  /* ============ Why Now ============ */
+  .scatter-illustration{position:relative;height:230px;}
+  .scrap{
+    position:absolute;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:var(--r-sm);
+    box-shadow:var(--shadow-sm);
+    padding:10px 13px;
+    font-family:"IBM Plex Mono","Noto Sans SC",monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    width:128px;
+  }
+  .scrap b{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;margin-bottom:3px;}
+  .scrap-a{top:0;left:4%; transform:rotate(-6deg);}
+  .scrap-b{top:18%;left:38%; transform:rotate(3deg);}
+  .scrap-c{top:0;right:2%; transform:rotate(8deg);}
+  .scrap-d{top:52%;left:12%; transform:rotate(5deg);}
+  .scrap-e{top:58%;right:10%; transform:rotate(-5deg);}
+
+  /* ============ For Creators tags ============ */
+  .tag-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+  .tag{
+    font-size:13px;font-weight:500;
+    padding:8px 15px;
+    border-radius:var(--r-pill);
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    color:var(--accent);
+  }
+
+  /* ============ Meet Capsule mock ============ */
+  .capsule-mock{
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:var(--r-lg);
+    box-shadow:var(--shadow-md);
+    padding:22px;
+  }
+  .capsule-mock-head{
+    display:flex;align-items:center;gap:10px;
+    padding-bottom:16px;margin-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .capsule-mock-head .sw{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));flex:none;}
+  .capsule-mock-head .name{font-family:"Manrope";font-weight:600;font-size:15px;}
+  .capsule-mock-head .meta{font-size:12px;color:var(--ink-faint);font-family:"IBM Plex Mono","Noto Sans SC",monospace;}
+  .mock-row{display:flex;align-items:center;gap:12px;padding:10px 6px;border-radius:var(--r-sm);}
+  .mock-row:hover{background:var(--surface);}
+  .mock-row .thumb{width:38px;height:38px;border-radius:8px;flex:none;}
+  .mock-row .t1{background:linear-gradient(135deg,#FFD9C2,#FF9868);}
+  .mock-row .t2{background:linear-gradient(135deg,#C9C4FF,#564CE0);}
+  .mock-row .t3{background:linear-gradient(135deg,#C8EFE0,#4FB89B);}
+  .mock-row .t4{background:linear-gradient(135deg,#FFE2AE,#F2A93B);}
+  .mock-row .label{flex:1;min-width:0;font-size:13.5px;font-weight:500;}
+  .mock-row .label small{display:block;font-size:11.5px;color:var(--ink-faint);font-weight:400;margin-top:1px;}
+  .mock-row .pill-tag{
+    font-size:11px;font-family:"IBM Plex Mono","Noto Sans SC",monospace;
+    color:var(--ink-soft);
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:4px 9px;border-radius:var(--r-pill);
+    flex:none;
+  }
+
+  /* ============ How it works ============ */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:28px;
+    margin-top:12px;
+    position:relative;
+  }
+  .steps::before{
+    content:"";
+    position:absolute;
+    top:21px; left:0; right:0;
+    height:1px;
+    background:var(--line);
+    z-index:0;
+  }
+  .step{position:relative;z-index:1;}
+  .step-num{
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:20px;
+    box-shadow:var(--shadow-sm);
+  }
+  .step-num svg{width:19px;height:19px;stroke:var(--accent);fill:none;stroke-width:1.7;}
+  .step h3{font-size:16.5px;font-weight:600;margin-bottom:6px;}
+  .step .tagline{font-size:13.5px;color:var(--accent);font-weight:600;margin-bottom:10px;}
+  .step p.body{font-size:14px;color:var(--ink-soft);}
+  @media (max-width:860px){
+    .steps{grid-template-columns:1fr 1fr;row-gap:40px;}
+    .steps::before{display:none;}
+  }
+  @media (max-width:520px){
+    .steps{grid-template-columns:1fr;}
+  }
+
+  /* ============ Trust ============ */
+  .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .trust-badges{display:flex;flex-direction:column;gap:18px;}
+  .badge-item{display:flex;gap:14px;align-items:flex-start;}
+  .badge-icon{
+    width:36px;height:36px;border-radius:10px;flex:none;
+    background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .badge-icon svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.8;}
+  .badge-item h4{font-family:var(--display);font-size:14.5px;font-weight:600;margin:0 0 3px;}
+  .badge-item p{font-size:13.5px;color:var(--ink-soft);}
+  @media (max-width:760px){.trust-grid{grid-template-columns:1fr;}}
+
+  /* ============ Future ============ */
+  .future{
+    background:var(--ink);
+    color:var(--bg);
+    border-radius:var(--r-lg);
+    padding:76px 48px;
+    text-align:center;
+  }
+  .future-inner{max-width:720px;margin:0 auto;}
+  .future .eyebrow{color:var(--accent-2);}
+  .future .eyebrow::before{background:var(--accent-2);}
+  .future h2{color:var(--bg);font-size:clamp(26px,3.6vw,40px);margin-top:16px;}
+  .future p{
+    margin-top:18px;
+    font-size:16px;
+    color:color-mix(in srgb, var(--bg) 70%, transparent);
+    max-width:58ch;
+    margin-inline:auto;
+  }
+  @media (max-width:640px){.future{padding:56px 26px;}}
+
+  /* ============ Final CTA ============ */
+  .final-cta{text-align:center;}
+  .final-cta h2{font-size:clamp(28px,4vw,42px);}
+  .final-cta p{margin-top:16px;color:var(--ink-soft);font-size:16.5px;max-width:52ch;margin-inline:auto;}
+  .final-cta .hero-ctas{margin-top:30px;}
+
+  /* ============ Footer ============ */
+  footer{border-top:1px solid var(--line);padding-block:40px;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-row .logo{font-size:16px;}
+  footer .fine{font-size:13px;color:var(--ink-faint);}
+
+  /* ============ Reveal animation ============ */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+    .reveal.in{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <div class="logo"><span class="logo-mark"></span><span class="logo-type" id="logo-type" aria-label="Monsora"><span class="txt" aria-hidden="true">Monsora</span><span class="caret" aria-hidden="true"></span></span></div>
+    <div class="nav-cta">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中</button>
+      </div>
+      <a class="btn btn-ghost btn-sm" href="#waitlist" data-i18n="joinWaitlist">Join Waitlist</a>
+      <a class="btn btn-primary btn-sm" href="#waitlist" data-i18n="download">Download for Mac</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero wrap">
+    <span class="eyebrow" data-i18n="heroEyebrow">Creative context system</span>
+    <h1 data-i18n="heroTitle">Your creative memory, ready for what comes next.</h1>
+    <p class="lede" data-i18n="heroLede">Monsora turns creative assets scattered across tools into reusable, callable Capsules — so every project can become a foundation for the next.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#waitlist" data-i18n="download">Download for Mac</a>
+      <a class="btn btn-ghost" href="#waitlist" data-i18n="joinWaitlist">Join Waitlist</a>
+    </div>
+    <p class="hero-note" data-i18n="note">No invite code or on Windows? Join the waitlist for updates.</p>
+
+    <div class="hero-art" aria-hidden="true">
+      <div class="glow"></div>
+      <svg class="links" viewBox="0 0 720 300" preserveAspectRatio="none">
+        <path d="M80,40 C140,140 220,200 330,236"/>
+        <path d="M310,8 C330,110 350,180 358,236"/>
+        <path d="M640,32 C560,130 470,196 390,234"/>
+        <path d="M30,130 C140,170 240,206 330,236"/>
+        <path d="M676,118 C560,170 460,206 388,234"/>
+      </svg>
+      <div class="chip chip-1"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2" fill="none" stroke-width="1.6"/><circle cx="8.5" cy="9.5" r="1.4" fill="none" stroke-width="1.4"/><path d="M4 16l5-5 4 4 3-3 4 4" fill="none" stroke-width="1.4"/></svg>image.psd</div>
+      <div class="chip chip-2"><svg viewBox="0 0 24 24"><path d="M5 5h10l4 4v10H5z" fill="none" stroke-width="1.6"/><path d="M9 13l6-3-6-3z" fill="none" stroke-width="1.3"/></svg>take_04.mp4</div>
+      <div class="chip chip-3"><svg viewBox="0 0 24 24"><path d="M7 8h10M7 12h10M7 16h6" stroke-width="1.6"/></svg>prompt.txt</div>
+      <div class="chip chip-4"><svg viewBox="0 0 24 24"><path d="M10 14l-2 2a3 3 0 01-4-4l3-3a3 3 0 014 0M14 10l2-2a3 3 0 014 4l-3 3a3 3 0 01-4 0" fill="none" stroke-width="1.6"/></svg>ref_link</div>
+      <div class="chip chip-5"><svg viewBox="0 0 24 24"><path d="M3 12h3l2-7 4 14 2-9 2 5h4" fill="none" stroke-width="1.5"/></svg>voice.wav</div>
+      <div class="capsule-core"><span class="dot"></span>Capsule — Campaign_09</div>
+    </div>
+  </section>
+
+  <!-- Why Now -->
+  <section id="why" class="wrap reveal">
+    <div class="two-col">
+      <div>
+        <span class="eyebrow" data-i18n="whyEyebrow">Why now</span>
+        <h2 style="margin-top:14px;font-size:clamp(26px,3.4vw,38px);" data-i18n="whyTitle">Files everywhere.<br>Context nowhere.</h2>
+      </div>
+      <div>
+        <p style="font-size:16.5px;color:var(--ink-soft);max-width:48ch;" data-i18n="whyBody">AI lets every idea take more forms, across more tools, models, and versions. References live in tabs, prompts in chats, outputs across tools, and versions in download folders. The work may remain, but the context that shaped it often disappears.</p>
+        <div class="scatter-illustration" aria-hidden="true" style="margin-top:36px;">
+          <div class="scrap scrap-a"><b data-i18n="scrapA1">Tab · 14</b><span data-i18n="scrapA2">moodboard refs</span></div>
+          <div class="scrap scrap-b"><b data-i18n="scrapB1">Chat</b><span data-i18n="scrapB2">prompt v7, v8, v9</span></div>
+          <div class="scrap scrap-c"><b data-i18n="scrapC1">Tool B</b>render_final_2</div>
+          <div class="scrap scrap-d"><b data-i18n="scrapD1">Downloads</b>export (3).png</div>
+          <div class="scrap scrap-e"><b data-i18n="scrapE1">Tool A</b>session_draft</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Creators -->
+  <section class="band reveal">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:0;">
+        <span class="eyebrow" data-i18n="creatorsEyebrow">For creators</span>
+        <h2 data-i18n="creatorsTitle">Built for AI creators who refuse to start over.</h2>
+        <p data-i18n="creatorsBody">For designers, visual storytellers, and creative teams whose work moves across tools, models, and stages. Monsora keeps the creative context connected as ideas evolve through references, images, videos, and revisions.</p>
+        <div class="tag-row">
+          <span class="tag" data-i18n="tag1">Designers</span>
+          <span class="tag" data-i18n="tag2">Visual storytellers</span>
+          <span class="tag" data-i18n="tag3">Creative teams</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet Capsule -->
+  <section id="capsule" class="wrap reveal">
+    <div class="two-col" style="align-items:center;">
+      <div>
+        <span class="eyebrow" data-i18n="capsuleEyebrow">Meet capsule</span>
+        <h2 style="margin-top:14px;font-size:clamp(26px,3.4vw,38px);" data-i18n="capsuleTitle">Capsule is a reusable unit of creative context.</h2>
+        <p style="margin-top:18px;font-size:16.5px;color:var(--ink-soft);max-width:46ch;" data-i18n="capsuleBody">It brings connected creative assets and their available context together — so the work can be found, understood, and carried forward.</p>
+      </div>
+      <div class="capsule-mock">
+        <div class="capsule-mock-head">
+          <div class="sw"></div>
+          <div>
+            <div class="name">Campaign_09</div>
+            <div class="meta" data-i18n="mockMeta">CAPSULE · 18 ASSETS · UPDATED 2H AGO</div>
+          </div>
+        </div>
+        <div class="mock-row"><div class="thumb t1"></div><div class="label">hero_key_visual.psd<small data-i18n="m1">Image · v4</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
+        <div class="mock-row"><div class="thumb t2"></div><div class="label">brand_prompt_set<small data-i18n="m2">Prompt · 12 variants</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
+        <div class="mock-row"><div class="thumb t3"></div><div class="label">motion_teaser.mp4<small data-i18n="m3">Video · rendered</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
+        <div class="mock-row"><div class="thumb t4"></div><div class="label">reference_board<small data-i18n="m4">7 references</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="band reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow" data-i18n="howEyebrow">How it works</span>
+        <h2 data-i18n="howTitle">From scattered work to the right context for what comes next.</h2>
+        <p data-i18n="howBody">Capture what matters, organize it into a Capsule, call up the context you need, and continue from where you left off.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 002 2h10a2 2 0 002-2v-2"/></svg></div>
+          <div class="tagline" data-i18n="s1Tag">Capture</div>
+          <h3 data-i18n="s1Title">Bring scattered assets back into one place.</h3>
+          <p class="body" data-i18n="s1Body">Bring images, video, prompts, references, scripts, audio, and outputs back from the web, your creative tools, or your computer.</p>
+        </div>
+        <div class="step">
+          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div>
+          <div class="tagline" data-i18n="s2Tag">Capsule</div>
+          <h3 data-i18n="s2Title">Let AI organize what matters into reusable context.</h3>
+          <p class="body" data-i18n="s2Body">Monsora understands related assets and organizes them into editable Capsules, keeping their available context connected.</p>
+        </div>
+        <div class="step">
+          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M9 18l-5-5 5-5M20 7v7a3 3 0 01-3 3H5"/></svg></div>
+          <div class="tagline" data-i18n="s3Tag">Call</div>
+          <h3 data-i18n="s3Title">Start from the right context, not from zero.</h3>
+          <p class="body" data-i18n="s3Body">Find the asset or Capsule you need, then drag it into a creative tool — or make it callable by authorized AI agents through Monsora CLI.</p>
+        </div>
+        <div class="step">
+          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0115-6.7M21 12a9 9 0 01-15 6.7M16 3v5h-5M8 21v-5h5"/></svg></div>
+          <div class="tagline" data-i18n="s4Tag">Continue</div>
+          <h3 data-i18n="s4Title">Keep creating from what came before.</h3>
+          <p class="body" data-i18n="s4Body">Bring selected results back to Monsora, where they can be confirmed and added to the relevant Capsule — so each new result can become context for what comes next.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section id="trust" class="wrap reveal">
+    <div class="trust-grid">
+      <div>
+        <span class="eyebrow" data-i18n="trustEyebrow">Trust &amp; control</span>
+        <h2 style="margin-top:14px;font-size:clamp(26px,3.4vw,38px);" data-i18n="trustTitle">Your assets stay yours.</h2>
+        <p style="margin-top:18px;font-size:16px;color:var(--ink-soft);max-width:48ch;" data-i18n="trustBody1">Monsora is built for creators who care about ownership, privacy, and control. AI can suggest structure, while you can review and adjust how your assets are organized. You decide when generated results return to Monsora and what is made available to collaborators or AI agents.</p>
+        <p style="margin-top:14px;font-size:16px;color:var(--ink-soft);max-width:48ch;" data-i18n="trustBody2">Monsora preserves source information and creative relationships where they are available, without inventing what is missing. Third-party timestamps support traceability by recording when assets enter Monsora and how the work develops; they do not determine ownership.</p>
+      </div>
+      <div class="trust-badges">
+        <div class="badge-item">
+          <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"/></svg></div>
+          <div><h4 data-i18n="b1Title">Ownership, preserved</h4><p data-i18n="b1Body">Source information and creative relationships stay intact where they exist — never invented.</p></div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1H4a1 1 0 01-1-1v-9z"/><path d="M9 21V13h6v8"/></svg></div>
+          <div><h4 data-i18n="b2Title">You review the structure</h4><p data-i18n="b2Body">AI suggests how assets are organized; you can always review and adjust it.</p></div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+          <div><h4 data-i18n="b3Title">Access, on your terms</h4><p data-i18n="b3Body">You decide what's shared with collaborators or AI agents — and when.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Future -->
+  <section class="wrap reveal">
+    <div class="future">
+      <div class="future-inner">
+        <span class="eyebrow" data-i18n="futureEyebrow">The future</span>
+        <h2 data-i18n="futureTitle">Models change. Your creative world should stay with you.</h2>
+        <p data-i18n="futureBody">Monsora starts with your personal creative memory. Over time, that memory can make the creative path itself searchable — not only what was made, but what changed, when, and why. Capsules can also support creative decisions, collaboration, and AI agents — with clear sources, permissions, status, and control. The goal is to preserve not only the result, but the creative path behind it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section id="waitlist" class="wrap final-cta reveal">
+    <span class="eyebrow" data-i18n="finalEyebrow">Your next step</span>
+    <h2 style="margin-top:14px;" data-i18n="finalTitle">Keep your creative memory alive.</h2>
+    <p data-i18n="finalBody">Turn scattered assets into reusable Capsules, so each new creation can build on what came before.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#waitlist" data-i18n="download">Download for Mac</a>
+      <a class="btn btn-ghost" href="#waitlist" data-i18n="joinWaitlist">Join Waitlist</a>
+    </div>
+    <p class="hero-note" data-i18n="note">No invite code or on Windows? Join the waitlist for updates.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div class="logo"><span class="logo-mark"></span>Monsora</div>
+    <div class="fine" data-i18n="footer">© 2026 Monsora. Your creative memory, carried forward.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---------- i18n ---------- */
+  var ZH = {
+    joinWaitlist:"加入候补名单",
+    download:"下载 Mac 版",
+    heroEyebrow:"创作上下文系统",
+    heroTitle:"你的创作记忆，<br>为下一步随时待命。",
+    heroLede:"Monsora 把散落在各个工具里的创作素材，整理成可复用、可调用的 Capsule——让每个项目都能成为下一个项目的起点。",
+    note:"没有邀请码，或使用 Windows？加入候补名单，获取最新动态。",
+    whyEyebrow:"为什么是现在",
+    whyTitle:"文件无处不在。<br>上下文无迹可寻。",
+    whyBody:"AI 让每个想法都能以更多形式，在更多工具、模型和版本之间流转。参考资料停在浏览器标签页里，提示词散落在对话中，产出分布在不同工具里，各个版本堆在下载文件夹中。作品也许还在，但塑造它的上下文往往已经消失。",
+    scrapA1:"标签页 · 14", scrapA2:"情绪板参考",
+    scrapB1:"对话", scrapB2:"提示词 v7、v8、v9",
+    scrapC1:"工具 B", scrapD1:"下载", scrapE1:"工具 A",
+    creatorsEyebrow:"为创作者而生",
+    creatorsTitle:"为拒绝从零开始的 AI 创作者而打造。",
+    creatorsBody:"面向设计师、视觉叙事者和创意团队——他们的作品在不同工具、模型和阶段之间流转。当想法在参考、图像、视频和一轮轮修改中不断演进时，Monsora 让创作上下文始终保持连接。",
+    tag1:"设计师", tag2:"视觉叙事者", tag3:"创意团队",
+    capsuleEyebrow:"认识 Capsule",
+    capsuleTitle:"Capsule 是可复用的创作上下文单元。",
+    capsuleBody:"它把相互关联的创作素材及其可用的上下文汇聚在一起——让作品能被找到、被理解，并被延续下去。",
+    mockMeta:"CAPSULE · 18 个素材 · 2 小时前更新",
+    m1:"图像 · v4", m2:"提示词 · 12 个变体", m3:"视频 · 已渲染", m4:"7 个参考",
+    linked:"已关联",
+    howEyebrow:"工作方式",
+    howTitle:"从零散的作品，到为下一步准备好的上下文。",
+    howBody:"捕获重要的内容，整理进 Capsule，调用你需要的上下文，从上次停下的地方继续。",
+    s1Tag:"捕获", s1Title:"把散落的素材重新收拢到一处。",
+    s1Body:"从网页、创意工具或你的电脑中，把图像、视频、提示词、参考资料、脚本、音频和产出重新带回来。",
+    s2Tag:"整理", s2Title:"让 AI 把重要内容整理成可复用的上下文。",
+    s2Body:"Monsora 理解素材之间的关联，把它们整理成可编辑的 Capsule，并让其中可用的上下文保持连接。",
+    s3Tag:"调用", s3Title:"从对的上下文出发，而不是从零开始。",
+    s3Body:"找到你需要的素材或 Capsule，拖进创意工具——或通过 Monsora CLI，让经过授权的 AI 智能体调用它。",
+    s4Tag:"延续", s4Title:"在已有的成果之上继续创作。",
+    s4Body:"把选定的结果带回 Monsora，确认后加入相应的 Capsule——让每一个新结果，都能成为下一步的上下文。",
+    trustEyebrow:"信任与掌控",
+    trustTitle:"你的素材，始终属于你。",
+    trustBody1:"Monsora 为重视所有权、隐私与掌控权的创作者而打造。AI 可以建议结构，而你可以审阅并调整素材的组织方式。生成结果何时回到 Monsora、哪些内容向协作者或 AI 智能体开放，都由你决定。",
+    trustBody2:"Monsora 会在可获得的情况下保留来源信息和创作关系，不会凭空补全缺失的部分。第三方时间戳记录素材进入 Monsora 的时间和作品的演进过程，用于支持可追溯性，但并不决定所有权。",
+    b1Title:"所有权，完整保留", b1Body:"来源信息与创作关系在存在之处保持完整——绝不凭空捏造。",
+    b2Title:"结构由你审阅", b2Body:"AI 建议素材的组织方式，你随时可以审阅和调整。",
+    b3Title:"访问权限，由你做主", b3Body:"与协作者或 AI 智能体分享什么、何时分享，由你决定。",
+    futureEyebrow:"未来",
+    futureTitle:"模型会变，你的创作世界应当始终与你同在。",
+    futureBody:"Monsora 从你的个人创作记忆开始。随着时间推移，这份记忆能让创作路径本身变得可搜索——不只是做了什么，还有改变了什么、何时改变、为何改变。Capsule 也可以支持创作决策、协作和 AI 智能体，并具备清晰的来源、权限、状态与控制。我们的目标不只是保存结果，更是保存结果背后的创作路径。",
+    finalEyebrow:"下一步",
+    finalTitle:"让你的创作记忆持续鲜活。",
+    finalBody:"把零散的素材变成可复用的 Capsule，让每一次新的创作都能建立在过往之上。",
+    footer:"© 2026 Monsora. 你的创作记忆，一路向前。"
+  };
+
+  var nodes = document.querySelectorAll('[data-i18n]');
+  nodes.forEach(function(el){ el._en = el.innerHTML; });
+  var langBtns = document.querySelectorAll('.lang button');
+
+  function setLang(lang){
+    nodes.forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      el.innerHTML = (lang === 'zh' && ZH[k]) ? ZH[k] : el._en;
+    });
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    langBtns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    try{ localStorage.setItem('monsora-lang', lang); }catch(e){}
+  }
+  langBtns.forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.dataset.lang); });
+  });
+  var saved = null;
+  try{ saved = localStorage.getItem('monsora-lang'); }catch(e){}
+  if(!saved){ saved = /^zh/i.test(navigator.language || '') ? 'zh' : 'en'; }
+  setLang(saved);
+
+  /* ---------- Typewriter logo ---------- */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var box = document.getElementById('logo-type');
+  var txt = box.querySelector('.txt');
+  var WORD = 'Monsora';
+  var timer = null, typing = false;
+
+  function typeOut(){
+    if(reduceMotion || typing) return;
+    typing = true;
+    clearTimeout(timer);
+    box.classList.remove('done');
+    box.classList.add('typing');
+    txt.textContent = '';
+    var i = 0;
+    (function tick(){
+      i++;
+      txt.textContent = WORD.slice(0, i);
+      if(i < WORD.length){
+        timer = setTimeout(tick, 70 + Math.random()*60);
+      } else {
+        box.classList.remove('typing');
+        void box.offsetWidth;            // restart caret animation
+        box.classList.add('done');
+        typing = false;
+      }
+    })();
+  }
+
+  /* ---------- Scroll: header border + retype on scroll up ---------- */
+  var header = document.getElementById('site-header');
+  var lastY = window.scrollY, dir = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    header.classList.toggle('scrolled', y > 8);
+    var delta = y - lastY;
+    if(Math.abs(delta) < 6) return;
+    var newDir = delta > 0 ? 1 : -1;
+    if(newDir === -1 && dir !== -1 && y > 0) typeOut();   // started scrolling up
+    dir = newDir;
+    lastY = y;
+  }, {passive:true});
+
+  typeOut(); // on load
+
+  /* ---------- Reveal ---------- */
+  var targets = document.querySelectorAll('.reveal');
+  if(reduceMotion || !('IntersectionObserver' in window)){
+    targets.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12});
+    targets.forEach(function(el){ obs.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
