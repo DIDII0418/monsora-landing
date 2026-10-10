@@ -174,10 +174,12 @@
     letter-spacing:-0.01em;
   }
   .logo-mark{
-    width:26px;height:26px;border-radius:9px;
-    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    width:34px;height:20px;
     flex:none;
+    color:var(--ink);
+    display:block;
   }
+  .footer-row .logo-mark{width:30px;height:18px;}
   .logo-type{
     display:inline-flex;
     align-items:center;
@@ -200,29 +202,53 @@
   }
   .nav-cta{display:flex;align-items:center;gap:10px;}
 
-  /* language switch */
-  .lang{
-    display:inline-flex;
-    padding:3px;
-    border:1px solid var(--line);
-    border-radius:var(--r-pill);
-    background:var(--surface-2);
-  }
-  .lang button{
+  /* language switch: round button + dropdown */
+  .lang{position:relative;}
+  .lang-toggle{
     appearance:none;
-    border:0;
-    background:transparent;
-    color:var(--ink-soft);
-    font:600 12.5px/1 var(--sans);
-    height:34px;
-    min-width:38px;
-    padding:0 10px;
-    border-radius:var(--r-pill);
+    width:42px;height:42px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--surface-2);
+    color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
     cursor:pointer;
-    transition:background .2s ease, color .2s ease;
+    transition:background .2s ease, border-color .2s ease;
   }
-  .lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg);}
-  .lang button:not([aria-pressed="true"]):hover{color:var(--ink);}
+  .lang-toggle:hover,.lang-toggle[aria-expanded="true"]{background:var(--surface);border-color:color-mix(in srgb, var(--ink) 20%, var(--line));}
+  .lang-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;}
+  .lang-menu{
+    position:absolute;
+    top:calc(100% + 8px);
+    right:0;
+    min-width:160px;
+    margin:0;padding:6px;
+    list-style:none;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:var(--shadow-md);
+    opacity:0;
+    transform:translateY(-4px);
+    pointer-events:none;
+    transition:opacity .16s ease, transform .16s ease;
+  }
+  .lang.open .lang-menu{opacity:1;transform:none;pointer-events:auto;}
+  .lang-menu button{
+    appearance:none;
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 12px;
+    border:0;border-radius:9px;
+    background:transparent;
+    color:var(--ink);
+    font:500 14px/1.2 var(--sans);
+    text-align:left;
+    cursor:pointer;
+  }
+  .lang-menu button:hover,.lang-menu button:focus-visible{background:var(--surface);outline:none;}
+  .lang-menu .check{width:14px;height:14px;fill:none;stroke:var(--accent);stroke-width:2.2;opacity:0;}
+  .lang-menu button[aria-checked="true"] .check{opacity:1;}
   @media (max-width:600px){
     .nav-cta .btn-ghost{display:none;}
     .nav-cta .btn-sm{padding:0 16px;}
@@ -230,7 +256,7 @@
   @media (max-width:400px){
     .logo{font-size:17px;}
     .nav-cta .btn-sm{font-size:13px;padding:0 13px;}
-    .lang button{min-width:32px;padding:0 8px;}
+    .lang-toggle{width:38px;height:38px;}
   }
 
   /* ============ Hero ============ */
@@ -239,13 +265,36 @@
     padding-bottom:40px;
     text-align:center;
     position:relative;
+    isolation:isolate;
+    min-height:calc(100vh - 76px);
+    min-height:calc(100svh - 76px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:40px;
+    padding-bottom:72px;
+  }
+  .art-screen{padding-block:72px 96px;}
+  .hero .waitlist-form{margin-top:88px;}
+  @media (max-width:600px){.hero .waitlist-form{margin-top:56px;}}
+  .art-screen .hero-art{margin-top:0;}
+  .ascii-bg{
+    position:absolute;
+    top:0;
+    left:50%;
+    width:100vw;
+    height:100%;
+    transform:translateX(-50%);
+    z-index:-1;
+    pointer-events:none;
+    display:block;
   }
   .hero h1{
     font-size:clamp(34px, 5.4vw, 60px);
     line-height:1;
     font-weight:800;
     max-width:880px;
-    margin:22px auto 0;
+    margin:0 auto;
   }
   .hero .lede{
     max-width:600px;
@@ -419,42 +468,93 @@
     flex:none;
   }
 
-  /* ============ How it works ============ */
-  .steps{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:28px;
-    margin-top:12px;
+  /* ============ How it works: expanding panels ============ */
+  .panels{
+    display:flex;
+    gap:12px;
+    height:580px;
+    margin-top:8px;
+  }
+  .panel{
+    --ease:cubic-bezier(.22,.8,.24,1);
     position:relative;
-  }
-  .steps::before{
-    content:"";
-    position:absolute;
-    top:21px; left:0; right:0;
-    height:1px;
-    background:var(--line);
-    z-index:0;
-  }
-  .step{position:relative;z-index:1;}
-  .step-num{
-    width:42px;height:42px;
-    border-radius:50%;
+    flex:1 1 0;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    padding:30px 28px 30px;
     background:var(--surface-2);
     border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:20px;
-    box-shadow:var(--shadow-sm);
+    border-radius:24px;
+    overflow:hidden;
+    outline:none;
+    cursor:default;
+    transition:flex-grow .6s var(--ease), border-color .3s ease, box-shadow .3s ease;
   }
-  .step-num svg{width:19px;height:19px;stroke:var(--accent);fill:none;stroke-width:1.7;}
-  .step h3{font-size:16.5px;font-weight:600;margin-bottom:6px;}
-  .step .tagline{font-size:13.5px;color:var(--accent);font-weight:600;margin-bottom:10px;}
-  .step p.body{font-size:14px;color:var(--ink-soft);}
+  .panel:focus-visible{box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);}
+  .panels.has-active .panel.active{flex-grow:2.3;box-shadow:var(--shadow-md);}
+  .panels.has-active .panel:not(.active){flex-grow:.85;}
+
+  .p-title{
+    display:flex; align-items:baseline; gap:.22em;
+    font-size:34px;
+    font-weight:700;
+    line-height:1;
+    letter-spacing:-0.03em;
+    white-space:nowrap;
+    transition:font-size .55s var(--ease), opacity .4s ease;
+  }
+  .p-num{color:var(--ink-faint);font-weight:500;}
+  .p-name{color:var(--ink);}
+  .panels.has-active .panel.active .p-title{font-size:48px;}
+  .panels.has-active .panel:not(.active) .p-title{font-size:26px;}
+
+  .p-visual{
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:24px -28px;
+    transition:opacity .45s ease;
+  }
+  .p-img{
+    flex:none;
+    width:220px;
+    aspect-ratio:3/4;
+    max-height:100%;
+    border-radius:16px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    transition:width .6s var(--ease), transform .6s var(--ease);
+  }
+  .panels.has-active .panel.active .p-img{width:280px;}
+  .p-img svg{width:30px;height:30px;fill:none;stroke:var(--ink-faint);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s ease;}
+  .panel.active .p-img svg{stroke:var(--accent);}
+
+  .p-text{transition:opacity .45s ease;}
+  .p-sub{font-size:18px;font-weight:700;line-height:1.3;color:var(--ink);max-width:28ch;}
+  .p-more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease);}
+  .p-more > div{overflow:hidden;}
+  .p-desc{margin-top:10px;font-size:14px;line-height:1.6;color:var(--ink-soft);max-width:44ch;opacity:0;transition:opacity .3s ease;}
+  .panel.active .p-more{grid-template-rows:1fr;}
+  .panel.active .p-desc{opacity:1;transition-delay:.18s;}
+
+  .panels.has-active .panel:not(.active) .p-title,
+  .panels.has-active .panel:not(.active) .p-visual,
+  .panels.has-active .panel:not(.active) .p-text{opacity:.38;}
+
+  @media (prefers-reduced-motion: reduce){ .panel,.p-title,.p-img,.p-more,.p-desc{transition:none!important;} }
   @media (max-width:860px){
-    .steps{grid-template-columns:1fr 1fr;row-gap:40px;}
-    .steps::before{display:none;}
-  }
-  @media (max-width:520px){
-    .steps{grid-template-columns:1fr;}
+    .panels{flex-direction:column;height:auto;}
+    .panel{flex:none;padding:24px;}
+    .p-title{font-size:30px!important;opacity:1!important;}
+    .p-visual{opacity:1!important;margin:20px 0;}
+    .p-img{width:100%!important;aspect-ratio:16/9;}
+    .p-text{opacity:1!important;}
+    .p-more{grid-template-rows:1fr;}
+    .p-desc{opacity:1;}
   }
 
   /* ============ Trust ============ */
@@ -469,6 +569,17 @@
   .badge-icon svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.8;}
   .badge-item h4{font-family:var(--display);font-size:14.5px;font-weight:600;margin:0 0 3px;}
   .badge-item p{font-size:13.5px;color:var(--ink-soft);}
+  .trust-grid{align-items:center;}
+  @media (min-width:761px){ #trust{height:800px;box-sizing:border-box;display:flex;align-items:center;} #trust > .wrap{width:100%;} }
+  .trust-grid .trust-badges{margin-top:36px;gap:24px;}
+  .trust-visual{
+    aspect-ratio:4/3;
+    border-radius:var(--r-lg);
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .trust-visual svg{width:36px;height:36px;fill:none;stroke:var(--ink-faint);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
   @media (max-width:760px){.trust-grid{grid-template-columns:1fr;}}
 
   /* ============ Future ============ */
@@ -496,7 +607,129 @@
   .final-cta{text-align:center;}
   .final-cta h2{font-size:clamp(28px,4vw,42px);}
   .final-cta p{margin-top:16px;color:var(--ink-soft);font-size:16.5px;max-width:52ch;margin-inline:auto;}
-  .final-cta .hero-ctas{margin-top:30px;}
+  .final-cta .waitlist-form{margin-top:30px;}
+
+  /* ============ Sub-blocks ============ */
+  .sub-title{font-size:clamp(22px,2.6vw,28px);font-weight:800;line-height:1.2;margin-top:14px;}
+  .sub-body{margin-top:16px;font-size:16px;color:var(--ink-soft);max-width:46ch;}
+  .capsule-spot{margin-top:88px;padding-top:72px;border-top:1px solid var(--line);align-items:center;}
+  .pain{margin-top:64px;padding:40px 0;background:none;border-radius:0;align-items:center;}
+  @media (min-width:761px){ .pain{height:700px;box-sizing:border-box;} }
+  .pain-copy{text-align:center;display:flex;flex-direction:column;align-items:center;}
+  .two-col.pain{grid-template-columns:1fr;justify-items:center;align-content:center;gap:100px;}
+  .pain .scatter-illustration{width:100%;max-width:620px;}
+  .ending .final-cta{margin-top:0;}
+  .ending{
+    position:relative;
+    background:#15130F;
+    box-shadow:0 0 0 100vmax #15130F;
+    clip-path:inset(0 -100vmax);
+    padding-block:120px;
+  }
+  .ending .final-cta h2{color:#FAF9F5;}
+  .ending .final-cta p{color:rgba(250,249,245,.68);}
+  .ending .final-cta p.hero-note{color:rgba(250,249,245,.45);}
+  .ending .waitlist-form{background:#FFFFFF;border-color:transparent;}
+  .ending .waitlist-form .wl-field input{color:#15130F;}
+  .ending .waitlist-form .wl-field input::placeholder{color:#9A9689;}
+  .ending .waitlist-form .btn-primary{background:#15130F;color:#FAF9F5;}
+  .ending .waitlist-form.done .wl-msg{color:#15130F;}
+  .ending .waitlist-form.invalid .wl-msg{color:#FF9868;}
+  .channels{
+    display:flex;justify-content:center;flex-wrap:wrap;gap:12px;
+    margin-top:88px;
+  }
+  .channel{
+    display:inline-flex;align-items:center;gap:8px;
+    height:44px;padding:0 18px;
+    border-radius:var(--r-pill);
+    border:1px solid rgba(250,249,245,.18);
+    color:rgba(250,249,245,.85);
+    font:600 13px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.08em;text-transform:uppercase;
+    transition:background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .channel svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease;}
+  .channel:hover{background:rgba(250,249,245,.08);border-color:rgba(250,249,245,.4);color:#FAF9F5;}
+  .channel:hover svg{transform:translate(2px,-2px);}
+  .channel:focus-visible{outline:2px solid #9089FF;outline-offset:3px;}
+  .ending{padding-bottom:40px;}
+  .end-footer{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    margin-top:120px;padding-top:32px;
+    position:relative;
+  }
+  .end-footer::before{
+    content:"";
+    position:absolute;
+    top:0;left:50%;
+    width:100vw;height:1px;
+    transform:translateX(-50%);
+    background:rgba(250,249,245,.12);
+  }
+  .end-footer .logo{color:#FAF9F5;font-size:16px;}
+  .end-footer .logo-mark{width:30px;height:18px;color:#FAF9F5;}
+  .end-footer .fine{font-size:13px;color:rgba(250,249,245,.45);}
+  .final-cta p.hero-note{font-size:13px;color:var(--ink-faint);}
+  @media (max-width:760px){
+    .capsule-spot{margin-top:56px;padding-top:48px;}
+    .pain{padding:0;margin-top:40px;}
+    .ending .final-cta{margin-top:64px;}
+  }
+
+  /* ============ Waitlist form ============ */
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .waitlist-form{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px;
+    width:100%;
+    max-width:460px;
+    margin:34px auto 0;
+    padding:6px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:var(--r-pill);
+    box-shadow:var(--shadow-sm);
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  .waitlist-form:focus-within{
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+  .waitlist-form.invalid{border-color:var(--accent-2);}
+  .wl-field{flex:1;min-width:0;display:flex;}
+  .wl-field input{
+    flex:1;min-width:0;
+    height:46px;
+    padding:0 8px 0 18px;
+    border:0;outline:0;
+    background:transparent;
+    color:var(--ink);
+    font:500 15px/1 var(--sans);
+  }
+  .wl-field input::placeholder{color:var(--ink-faint);}
+  .waitlist-form .btn{height:46px;padding:0 22px;}
+  .waitlist-form{position:relative;}
+  .waitlist-form + .hero-note{margin-top:38px;}
+  .wl-msg{
+    position:absolute;
+    top:calc(100% + 8px);
+    left:0;right:0;
+    margin:0;
+    font-size:13px;
+    text-align:center;
+    color:var(--ink-soft);
+  }
+  .wl-msg:empty{display:none;}
+  .waitlist-form.invalid .wl-msg{color:var(--accent-2);}
+  .waitlist-form.done .wl-field,.waitlist-form.done .btn{display:none;}
+  .waitlist-form.done .wl-msg{position:static;flex-basis:100%;padding:12px 18px;font-size:14.5px;font-weight:600;color:var(--ink);text-align:center;}
+  @media (max-width:420px){
+    .waitlist-form .btn{padding:0 16px;font-size:14px;}
+    .wl-field input{padding-left:14px;font-size:14px;}
+  }
 
   /* ============ Footer ============ */
   footer{border-top:1px solid var(--line);padding-block:40px;}
@@ -515,14 +748,19 @@
 
 <header id="site-header">
   <div class="wrap nav">
-    <div class="logo"><span class="logo-mark"></span><span class="logo-type" id="logo-type" aria-label="Monsora"><span class="txt" aria-hidden="true">Monsora</span><span class="caret" aria-hidden="true"></span></span></div>
+    <div class="logo"><svg class="logo-mark" viewBox="0 18 100 64" aria-hidden="true"><g fill="currentColor"><rect x="-22" y="-13" width="44" height="26" rx="7" transform="translate(27 50.5) rotate(-48.8)"/><rect x="-22" y="-13" width="44" height="26" rx="7" transform="translate(73 50.5) rotate(48.8)"/></g></svg><span class="logo-type" id="logo-type" aria-label="Monsora"><span class="txt" aria-hidden="true">Monsora</span><span class="caret" aria-hidden="true"></span></span></div>
     <div class="nav-cta">
-      <div class="lang" role="group" aria-label="Language">
-        <button type="button" data-lang="en" aria-pressed="true">EN</button>
-        <button type="button" data-lang="zh" aria-pressed="false">中</button>
-      </div>
       <a class="btn btn-ghost btn-sm" href="#waitlist" data-i18n="joinWaitlist">Join Waitlist</a>
       <a class="btn btn-primary btn-sm" href="#waitlist" data-i18n="download">Download for Mac</a>
+      <div class="lang" id="lang">
+        <button type="button" class="lang-toggle" id="lang-toggle" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu" aria-label="Language / 语言">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
+        </button>
+        <ul class="lang-menu" id="lang-menu" role="menu">
+          <li role="none"><button type="button" role="menuitemradio" data-lang="en" aria-checked="true">English<svg class="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li>
+          <li role="none"><button type="button" role="menuitemradio" data-lang="zh" aria-checked="false">简体中文<svg class="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li>
+        </ul>
+      </div>
     </div>
   </div>
 </header>
@@ -530,15 +768,23 @@
 <main>
   <!-- Hero -->
   <section class="hero wrap">
-    <span class="eyebrow" data-i18n="heroEyebrow">Creative context system</span>
+    <canvas class="ascii-bg" id="ascii-bg" aria-hidden="true"></canvas>
     <h1 data-i18n="heroTitle">Your creative memory, ready for what comes next.</h1>
     <p class="lede" data-i18n="heroLede">Monsora turns creative assets scattered across tools into reusable, callable Capsules — so every project can become a foundation for the next.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="#waitlist" data-i18n="download">Download for Mac</a>
-      <a class="btn btn-ghost" href="#waitlist" data-i18n="joinWaitlist">Join Waitlist</a>
-    </div>
+    <form class="waitlist-form" novalidate>
+      <label class="wl-field">
+        <span class="sr-only" data-i18n="emailLabel">Email address</span>
+        <input type="email" name="email" autocomplete="email" required placeholder="you@studio.com" data-i18n-ph="emailPh">
+      </label>
+      <button class="btn btn-primary" type="submit" data-i18n="joinWaitlist">Join Waitlist</button>
+      <p class="wl-msg" role="status" aria-live="polite"></p>
+    </form>
     <p class="hero-note" data-i18n="note">No invite code or on Windows? Join the waitlist for updates.</p>
 
+  </section>
+
+  <!-- 1b. Illustration (second screen) -->
+  <section class="wrap art-screen reveal">
     <div class="hero-art" aria-hidden="true">
       <div class="glow"></div>
       <svg class="links" viewBox="0 0 720 300" preserveAspectRatio="none">
@@ -557,67 +803,7 @@
     </div>
   </section>
 
-  <!-- Why Now -->
-  <section id="why" class="wrap reveal">
-    <div class="two-col">
-      <div>
-        <span class="eyebrow" data-i18n="whyEyebrow">Why now</span>
-        <h2 style="margin-top:14px;font-size:clamp(26px,3.4vw,38px);" data-i18n="whyTitle">Files everywhere.<br>Context nowhere.</h2>
-      </div>
-      <div>
-        <p style="font-size:16.5px;color:var(--ink-soft);max-width:48ch;" data-i18n="whyBody">AI lets every idea take more forms, across more tools, models, and versions. References live in tabs, prompts in chats, outputs across tools, and versions in download folders. The work may remain, but the context that shaped it often disappears.</p>
-        <div class="scatter-illustration" aria-hidden="true" style="margin-top:36px;">
-          <div class="scrap scrap-a"><b data-i18n="scrapA1">Tab · 14</b><span data-i18n="scrapA2">moodboard refs</span></div>
-          <div class="scrap scrap-b"><b data-i18n="scrapB1">Chat</b><span data-i18n="scrapB2">prompt v7, v8, v9</span></div>
-          <div class="scrap scrap-c"><b data-i18n="scrapC1">Tool B</b>render_final_2</div>
-          <div class="scrap scrap-d"><b data-i18n="scrapD1">Downloads</b>export (3).png</div>
-          <div class="scrap scrap-e"><b data-i18n="scrapE1">Tool A</b>session_draft</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- For Creators -->
-  <section class="band reveal">
-    <div class="wrap">
-      <div class="section-head" style="margin-bottom:0;">
-        <span class="eyebrow" data-i18n="creatorsEyebrow">For creators</span>
-        <h2 data-i18n="creatorsTitle">Built for AI creators who refuse to start over.</h2>
-        <p data-i18n="creatorsBody">For designers, visual storytellers, and creative teams whose work moves across tools, models, and stages. Monsora keeps the creative context connected as ideas evolve through references, images, videos, and revisions.</p>
-        <div class="tag-row">
-          <span class="tag" data-i18n="tag1">Designers</span>
-          <span class="tag" data-i18n="tag2">Visual storytellers</span>
-          <span class="tag" data-i18n="tag3">Creative teams</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Meet Capsule -->
-  <section id="capsule" class="wrap reveal">
-    <div class="two-col" style="align-items:center;">
-      <div>
-        <span class="eyebrow" data-i18n="capsuleEyebrow">Meet capsule</span>
-        <h2 style="margin-top:14px;font-size:clamp(26px,3.4vw,38px);" data-i18n="capsuleTitle">Capsule is a reusable unit of creative context.</h2>
-        <p style="margin-top:18px;font-size:16.5px;color:var(--ink-soft);max-width:46ch;" data-i18n="capsuleBody">It brings connected creative assets and their available context together — so the work can be found, understood, and carried forward.</p>
-      </div>
-      <div class="capsule-mock">
-        <div class="capsule-mock-head">
-          <div class="sw"></div>
-          <div>
-            <div class="name">Campaign_09</div>
-            <div class="meta" data-i18n="mockMeta">CAPSULE · 18 ASSETS · UPDATED 2H AGO</div>
-          </div>
-        </div>
-        <div class="mock-row"><div class="thumb t1"></div><div class="label">hero_key_visual.psd<small data-i18n="m1">Image · v4</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
-        <div class="mock-row"><div class="thumb t2"></div><div class="label">brand_prompt_set<small data-i18n="m2">Prompt · 12 variants</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
-        <div class="mock-row"><div class="thumb t3"></div><div class="label">motion_teaser.mp4<small data-i18n="m3">Video · rendered</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
-        <div class="mock-row"><div class="thumb t4"></div><div class="label">reference_board<small data-i18n="m4">7 references</small></div><div class="pill-tag" data-i18n="linked">linked</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How It Works -->
+  <!-- 2. How It Works -->
   <section id="how" class="band reveal">
     <div class="wrap">
       <div class="section-head">
@@ -625,45 +811,77 @@
         <h2 data-i18n="howTitle">From scattered work to the right context for what comes next.</h2>
         <p data-i18n="howBody">Capture what matters, organize it into a Capsule, call up the context you need, and continue from where you left off.</p>
       </div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 002 2h10a2 2 0 002-2v-2"/></svg></div>
-          <div class="tagline" data-i18n="s1Tag">Capture</div>
-          <h3 data-i18n="s1Title">Bring scattered assets back into one place.</h3>
-          <p class="body" data-i18n="s1Body">Bring images, video, prompts, references, scripts, audio, and outputs back from the web, your creative tools, or your computer.</p>
-        </div>
-        <div class="step">
-          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div>
-          <div class="tagline" data-i18n="s2Tag">Capsule</div>
-          <h3 data-i18n="s2Title">Let AI organize what matters into reusable context.</h3>
-          <p class="body" data-i18n="s2Body">Monsora understands related assets and organizes them into editable Capsules, keeping their available context connected.</p>
-        </div>
-        <div class="step">
-          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M9 18l-5-5 5-5M20 7v7a3 3 0 01-3 3H5"/></svg></div>
-          <div class="tagline" data-i18n="s3Tag">Call</div>
-          <h3 data-i18n="s3Title">Start from the right context, not from zero.</h3>
-          <p class="body" data-i18n="s3Body">Find the asset or Capsule you need, then drag it into a creative tool — or make it callable by authorized AI agents through Monsora CLI.</p>
-        </div>
-        <div class="step">
-          <div class="step-num"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0115-6.7M21 12a9 9 0 01-15 6.7M16 3v5h-5M8 21v-5h5"/></svg></div>
-          <div class="tagline" data-i18n="s4Tag">Continue</div>
-          <h3 data-i18n="s4Title">Keep creating from what came before.</h3>
-          <p class="body" data-i18n="s4Body">Bring selected results back to Monsora, where they can be confirmed and added to the relevant Capsule — so each new result can become context for what comes next.</p>
-        </div>
+      <div class="panels" id="panels" role="list" aria-label="How Monsora works, in four steps">
+        <article class="panel" tabindex="0" role="listitem">
+          <h3 class="p-title"><span class="p-num">01</span><span class="p-name" data-i18n="s1Tag">Capture</span></h3>
+          <div class="p-visual" aria-hidden="true">
+            <div class="p-img"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 002 2h10a2 2 0 002-2v-2"/></svg></div>
+          </div>
+          <div class="p-text">
+            <p class="p-sub" data-i18n="s1Title">Bring scattered assets back into one place.</p>
+            <div class="p-more"><div><p class="p-desc" data-i18n="s1Body">Bring images, video, prompts, references, scripts, audio, and outputs back from the web, your creative tools, or your computer.</p></div></div>
+          </div>
+        </article>
+        <article class="panel" tabindex="0" role="listitem">
+          <h3 class="p-title"><span class="p-num">02</span><span class="p-name" data-i18n="s2Tag">Capsule</span></h3>
+          <div class="p-visual" aria-hidden="true">
+            <div class="p-img"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div>
+          </div>
+          <div class="p-text">
+            <p class="p-sub" data-i18n="s2Title">Let AI organize what matters into reusable context.</p>
+            <div class="p-more"><div><p class="p-desc" data-i18n="s2Body">Monsora understands related assets and organizes them into editable Capsules, keeping their available context connected.</p></div></div>
+          </div>
+        </article>
+        <article class="panel" tabindex="0" role="listitem">
+          <h3 class="p-title"><span class="p-num">03</span><span class="p-name" data-i18n="s3Tag">Call</span></h3>
+          <div class="p-visual" aria-hidden="true">
+            <div class="p-img"><svg viewBox="0 0 24 24"><path d="M9 18l-5-5 5-5M20 7v7a3 3 0 01-3 3H5"/></svg></div>
+          </div>
+          <div class="p-text">
+            <p class="p-sub" data-i18n="s3Title">Start from the right context, not from zero.</p>
+            <div class="p-more"><div><p class="p-desc" data-i18n="s3Body">Find the asset or Capsule you need, then drag it into a creative tool — or make it callable by authorized AI agents through Monsora CLI.</p></div></div>
+          </div>
+        </article>
+        <article class="panel" tabindex="0" role="listitem">
+          <h3 class="p-title"><span class="p-num">04</span><span class="p-name" data-i18n="s4Tag">Continue</span></h3>
+          <div class="p-visual" aria-hidden="true">
+            <div class="p-img"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0115-6.7M21 12a9 9 0 01-15 6.7M16 3v5h-5M8 21v-5h5"/></svg></div>
+          </div>
+          <div class="p-text">
+            <p class="p-sub" data-i18n="s4Title">Keep creating from what came before.</p>
+            <div class="p-more"><div><p class="p-desc" data-i18n="s4Body">Bring selected results back to Monsora, where they can be confirmed and added to the relevant Capsule — so each new result can become context for what comes next.</p></div></div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- Trust -->
-  <section id="trust" class="wrap reveal">
+  <!-- 3. Who it's for & the pain -->
+  <section id="who" class="wrap reveal">
+    <div class="two-col pain" style="margin-top:0;">
+      <div class="pain-copy">
+        <span class="eyebrow" data-i18n="whyEyebrow">Why now</span>
+        <h2 style="margin-top:14px;font-size:clamp(26px,3.4vw,38px);" data-i18n="whyTitle">Files everywhere.<br>Context nowhere.</h2>
+        <p class="sub-body" style="max-width:60ch;" data-i18n="whyBody">AI lets every idea take more forms, across more tools, models, and versions. References live in tabs, prompts in chats, outputs across tools, and versions in download folders. The work may remain, but the context that shaped it often disappears.</p>
+      </div>
+        <div class="scatter-illustration" aria-hidden="true">
+          <div class="scrap scrap-a"><b data-i18n="scrapA1">Tab · 14</b><span data-i18n="scrapA2">moodboard refs</span></div>
+          <div class="scrap scrap-b"><b data-i18n="scrapB1">Chat</b><span data-i18n="scrapB2">prompt v7, v8, v9</span></div>
+          <div class="scrap scrap-c"><b data-i18n="scrapC1">Tool B</b>render_final_2</div>
+          <div class="scrap scrap-d"><b data-i18n="scrapD1">Downloads</b>export (3).png</div>
+          <div class="scrap scrap-e"><b data-i18n="scrapE1">Tool A</b>session_draft</div>
+        </div>
+    </div>
+  </section>
+
+  <!-- 4. Trust -->
+  <section id="trust" class="band reveal">
+    <div class="wrap">
     <div class="trust-grid">
       <div>
         <span class="eyebrow" data-i18n="trustEyebrow">Trust &amp; control</span>
         <h2 style="margin-top:14px;font-size:clamp(26px,3.4vw,38px);" data-i18n="trustTitle">Your assets stay yours.</h2>
-        <p style="margin-top:18px;font-size:16px;color:var(--ink-soft);max-width:48ch;" data-i18n="trustBody1">Monsora is built for creators who care about ownership, privacy, and control. AI can suggest structure, while you can review and adjust how your assets are organized. You decide when generated results return to Monsora and what is made available to collaborators or AI agents.</p>
-        <p style="margin-top:14px;font-size:16px;color:var(--ink-soft);max-width:48ch;" data-i18n="trustBody2">Monsora preserves source information and creative relationships where they are available, without inventing what is missing. Third-party timestamps support traceability by recording when assets enter Monsora and how the work develops; they do not determine ownership.</p>
-      </div>
-      <div class="trust-badges">
+        <div class="trust-badges">
         <div class="badge-item">
           <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"/></svg></div>
           <div><h4 data-i18n="b1Title">Ownership, preserved</h4><p data-i18n="b1Body">Source information and creative relationships stay intact where they exist — never invented.</p></div>
@@ -677,45 +895,48 @@
           <div><h4 data-i18n="b3Title">Access, on your terms</h4><p data-i18n="b3Body">You decide what's shared with collaborators or AI agents — and when.</p></div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Future -->
-  <section class="wrap reveal">
-    <div class="future">
-      <div class="future-inner">
-        <span class="eyebrow" data-i18n="futureEyebrow">The future</span>
-        <h2 data-i18n="futureTitle">Models change. Your creative world should stay with you.</h2>
-        <p data-i18n="futureBody">Monsora starts with your personal creative memory. Over time, that memory can make the creative path itself searchable — not only what was made, but what changed, when, and why. Capsules can also support creative decisions, collaboration, and AI agents — with clear sources, permissions, status, and control. The goal is to preserve not only the result, but the creative path behind it.</p>
+      </div>
+      <div class="trust-visual" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg>
       </div>
     </div>
+    </div>
   </section>
 
-  <!-- Final CTA -->
-  <section id="waitlist" class="wrap final-cta reveal">
-    <span class="eyebrow" data-i18n="finalEyebrow">Your next step</span>
-    <h2 style="margin-top:14px;" data-i18n="finalTitle">Keep your creative memory alive.</h2>
-    <p data-i18n="finalBody">Turn scattered assets into reusable Capsules, so each new creation can build on what came before.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="#waitlist" data-i18n="download">Download for Mac</a>
-      <a class="btn btn-ghost" href="#waitlist" data-i18n="joinWaitlist">Join Waitlist</a>
+  <!-- 5. Ending -->
+  <section id="waitlist" class="wrap reveal ending">
+    <div class="final-cta">
+      <h2 data-i18n="finalTitle">Keep your creative memory alive.</h2>
+      <p data-i18n="finalBody">Turn scattered assets into reusable Capsules, so each new creation can build on what came before.</p>
+      <form class="waitlist-form" novalidate>
+        <label class="wl-field">
+          <span class="sr-only" data-i18n="emailLabel">Email address</span>
+          <input type="email" name="email" autocomplete="email" required placeholder="you@studio.com" data-i18n-ph="emailPh">
+        </label>
+        <button class="btn btn-primary" type="submit" data-i18n="joinWaitlist">Join Waitlist</button>
+        <p class="wl-msg" role="status" aria-live="polite"></p>
+      </form>
     </div>
-    <p class="hero-note" data-i18n="note">No invite code or on Windows? Join the waitlist for updates.</p>
+    <nav class="channels" aria-label="Follow Monsora">
+      <a class="channel" href="#" aria-label="Monsora on Instagram">Instagram<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      <a class="channel" href="#" aria-label="Monsora on Discord">Discord<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      <a class="channel" href="#" aria-label="Monsora on X">X<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+    </nav>
+    <footer class="end-footer">
+      <div class="logo"><svg class="logo-mark" viewBox="0 18 100 64" aria-hidden="true"><g fill="currentColor"><rect x="-22" y="-13" width="44" height="26" rx="7" transform="translate(27 50.5) rotate(-48.8)"/><rect x="-22" y="-13" width="44" height="26" rx="7" transform="translate(73 50.5) rotate(48.8)"/></g></svg>Monsora</div>
+      <div class="fine" data-i18n="footer">© 2026 Monsora. Your creative memory, carried forward.</div>
+    </footer>
   </section>
 </main>
 
-<footer>
-  <div class="wrap footer-row">
-    <div class="logo"><span class="logo-mark"></span>Monsora</div>
-    <div class="fine" data-i18n="footer">© 2026 Monsora. Your creative memory, carried forward.</div>
-  </div>
-</footer>
 
 <script>
 (function(){
   /* ---------- i18n ---------- */
   var ZH = {
     joinWaitlist:"加入候补名单",
+    emailLabel:"邮箱地址",
+    emailPh:"you@studio.com",
     download:"下载 Mac 版",
     heroEyebrow:"创作上下文系统",
     heroTitle:"你的创作记忆，<br>为下一步随时待命。",
@@ -766,24 +987,215 @@
 
   var nodes = document.querySelectorAll('[data-i18n]');
   nodes.forEach(function(el){ el._en = el.innerHTML; });
-  var langBtns = document.querySelectorAll('.lang button');
+  var phNodes = document.querySelectorAll('[data-i18n-ph]');
+  phNodes.forEach(function(el){ el._en = el.placeholder; });
+  var MSG = {
+    en:{bad:"Please enter a valid email address.", ok:"You're on the list — we'll be in touch."},
+    zh:{bad:"请输入有效的邮箱地址。", ok:"已加入候补名单，我们会尽快联系你。"}
+  };
+  var curLang = 'en';
+  var langBtns = document.querySelectorAll('.lang-menu button');
+  var langBox = document.getElementById('lang');
+  var langToggle = document.getElementById('lang-toggle');
 
   function setLang(lang){
     nodes.forEach(function(el){
       var k = el.getAttribute('data-i18n');
       el.innerHTML = (lang === 'zh' && ZH[k]) ? ZH[k] : el._en;
     });
+    phNodes.forEach(function(el){
+      var k = el.getAttribute('data-i18n-ph');
+      el.placeholder = (lang === 'zh' && ZH[k]) ? ZH[k] : el._en;
+    });
+    curLang = lang;
+    document.querySelectorAll('.waitlist-form').forEach(function(f){
+      var m = f.querySelector('.wl-msg');
+      if(f.classList.contains('done')) m.textContent = MSG[lang].ok;
+      else if(f.classList.contains('invalid')) m.textContent = MSG[lang].bad;
+    });
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-    langBtns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    langBtns.forEach(function(b){ b.setAttribute('aria-checked', String(b.dataset.lang === lang)); });
     try{ localStorage.setItem('monsora-lang', lang); }catch(e){}
   }
   langBtns.forEach(function(b){
-    b.addEventListener('click', function(){ setLang(b.dataset.lang); });
+    b.addEventListener('click', function(){ setLang(b.dataset.lang); closeMenu(); langToggle.focus(); });
+  });
+  function openMenu(){
+    langBox.classList.add('open');
+    langToggle.setAttribute('aria-expanded','true');
+    var cur = langBox.querySelector('[aria-checked="true"]') || langBtns[0];
+    cur.focus();
+  }
+  function closeMenu(){
+    langBox.classList.remove('open');
+    langToggle.setAttribute('aria-expanded','false');
+  }
+  langToggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    langBox.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  document.addEventListener('click', function(e){ if(!langBox.contains(e.target)) closeMenu(); });
+  document.addEventListener('keydown', function(e){
+    if(!langBox.classList.contains('open')) return;
+    if(e.key === 'Escape'){ closeMenu(); langToggle.focus(); }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      var list = Array.prototype.slice.call(langBtns);
+      var i = list.indexOf(document.activeElement);
+      i = (i + (e.key === 'ArrowDown' ? 1 : -1) + list.length) % list.length;
+      list[i].focus();
+    }
   });
   var saved = null;
   try{ saved = localStorage.getItem('monsora-lang'); }catch(e){}
   if(!saved){ saved = /^zh/i.test(navigator.language || '') ? 'zh' : 'en'; }
   setLang(saved);
+
+  /* ---------- Waitlist forms ---------- */
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  document.querySelectorAll('.waitlist-form').forEach(function(f){
+    var input = f.querySelector('input');
+    var msg = f.querySelector('.wl-msg');
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var v = input.value.trim();
+      if(!EMAIL_RE.test(v)){
+        f.classList.add('invalid');
+        msg.textContent = MSG[curLang].bad;
+        input.focus();
+        return;
+      }
+      f.classList.remove('invalid');
+      f.classList.add('done');
+      msg.textContent = MSG[curLang].ok;
+    });
+    input.addEventListener('input', function(){
+      if(f.classList.contains('invalid')){ f.classList.remove('invalid'); msg.textContent=''; }
+    });
+  });
+
+  /* ---------- ASCII "MONSORA" background ---------- */
+  (function(){
+    var cv = document.getElementById('ascii-bg');
+    if(!cv || !cv.getContext) return;
+    var hero = cv.parentNode, h1 = hero.querySelector('h1');
+    var ctx = cv.getContext('2d');
+    var GLYPHS = '$#&@%*+=?!'.split('');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var cells = [], cell = 10, W = 0, H = 0, dpr = 1, color = '#9A9689', running = false, raf = 0, last = 0;
+
+    function pick(){ return GLYPHS[(Math.random()*GLYPHS.length)|0]; }
+
+    function build(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = cv.clientWidth; H = cv.clientHeight;
+      if(!W || !H) return;
+      cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+      color = getComputedStyle(document.documentElement).getPropertyValue('--ink-faint').trim() || color;
+      cell = W < 600 ? 8 : W < 1100 ? 9 : 11;
+
+      // render the word into an offscreen mask
+      var m = document.createElement('canvas');
+      m.width = W; m.height = H;
+      var mc = m.getContext('2d');
+      var size = 200;
+      mc.font = '700 ' + size + 'px Manrope, Inter, sans-serif';
+      var tw = mc.measureText('MONSORA').width;
+      size = Math.max(size * (W * 0.98) / tw, W < 600 ? 150 : 0);
+      mc.font = '700 ' + size + 'px Manrope, Inter, sans-serif';
+      mc.textAlign = 'center';
+      mc.textBaseline = 'middle';
+      var heroBox = hero.getBoundingClientRect(), hb = h1.getBoundingClientRect();
+      var cy = (hb.top - heroBox.top) + hb.height/2;
+      mc.fillStyle = '#000';
+      mc.fillText('MONSORA', W/2, cy + size*0.04);
+      var data = mc.getImageData(0,0,W,H).data;
+
+      cells = [];
+      for(var y = cell/2; y < H; y += cell*1.15){
+        for(var x = cell/2; x < W; x += cell){
+          var a = data[((y|0)*W + (x|0))*4 + 3];
+          if(a > 128) cells.push({x:x, y:y, g:pick(), o: Math.random() < .18 ? .35 : 1});
+        }
+      }
+      draw();
+    }
+
+    function draw(){
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.clearRect(0,0,W,H);
+      ctx.font = '500 ' + cell + 'px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = color;
+      for(var i=0;i<cells.length;i++){
+        var c = cells[i];
+        ctx.globalAlpha = 0.55 * c.o;
+        ctx.fillText(c.g, c.x, c.y);
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function tick(t){
+      if(!running) return;
+      if(t - last > 85){
+        last = t;
+        var n = Math.max(1, (cells.length * 0.12)|0);
+        for(var i=0;i<n;i++){
+          var c = cells[(Math.random()*cells.length)|0];
+          if(!c) break;
+          c.g = pick();
+          c.o = Math.random() < .18 ? .35 : 1;
+        }
+        draw();
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    function start(){ if(reduce || running) return; running = true; raf = requestAnimationFrame(tick); }
+    function stop(){ running = false; cancelAnimationFrame(raf); }
+
+    var ready = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    ready.then(function(){
+      build();
+      if('IntersectionObserver' in window){
+        new IntersectionObserver(function(es){ es[0].isIntersecting ? start() : stop(); }).observe(hero);
+      } else start();
+    });
+    var rt;
+    window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(build, 150); });
+    document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+    if(window.matchMedia){
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', build);
+    }
+    document.querySelectorAll('.lang-menu button').forEach(function(b){
+      b.addEventListener('click', function(){ setTimeout(build, 50); });
+    });
+  })();
+
+  /* ---------- How it works: expanding panels ---------- */
+  (function(){
+    var wrap = document.getElementById('panels');
+    if(!wrap) return;
+    var panels = Array.prototype.slice.call(wrap.querySelectorAll('.panel'));
+    var narrow = window.matchMedia('(max-width: 860px)');
+    function setActive(p){
+      panels.forEach(function(x){ x.classList.toggle('active', x === p); });
+      wrap.classList.toggle('has-active', !!p);
+    }
+    panels.forEach(function(p, i){
+      p.addEventListener('mouseenter', function(){ if(!narrow.matches) setActive(p); });
+      p.addEventListener('focus', function(){ if(!narrow.matches) setActive(p); });
+      p.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+          e.preventDefault();
+          panels[(i + (e.key === 'ArrowRight' ? 1 : panels.length - 1)) % panels.length].focus();
+        }
+        if(e.key === 'Escape'){ setActive(null); p.blur(); }
+      });
+    });
+    wrap.addEventListener('mouseleave', function(){ if(!wrap.contains(document.activeElement)) setActive(null); });
+    wrap.addEventListener('focusout', function(e){ if(!wrap.contains(e.relatedTarget)) setActive(null); });
+  })();
 
   /* ---------- Typewriter logo ---------- */
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -849,3 +1261,4 @@
 </script>
 </body>
 </html>
+
