@@ -1187,6 +1187,9 @@ html.intro-on #top #hh,#top.hero-pre #hh{opacity:0;transform:translateY(12px)}
 #fcap{margin:18px auto 0!important}
 
 #fdesc{font-size:18px!important;line-height:1.45!important}
+
+#fdesc{white-space:normal!important;max-width:820px!important;min-height:2.9em!important}
+#fdesc span.fd2{display:inline;color:var(--muted)}
 </style>
 <script>
 (()=>{const r=document.documentElement;
@@ -1539,9 +1542,9 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   const RANGE=[[.03,.335],[.42,.60],[.685,1]],   // Pick / Search / Use
         MS=[4600,4500,3600],                     // Pick / Search / Use 各自播多久
         HOLD=400;                                // 每步播完停多久
-  const DESC=['<b>Magic Pick</b> — Save images, videos and texts from any page, in one click.',
-    '<b>AI Search</b> — Describe what you remember, and Monsora finds it.',
-    '<b>Drop &amp; Go</b> — Paste or drag it straight into the AI tool you\'re using.'];
+  const DESC=['<b>Magic Pick</b> — Save images, videos and texts from any page, in one click.<br><span class="fd2">No downloading, renaming or sorting. It even remembers where it came from.</span>',
+    '<b>AI Search</b> — Describe what you remember, and Monsora finds it.<br><span class="fd2">No filenames, no tags. Even the exact moment inside a video.</span>',
+    '<b>Drop &amp; Go</b> — Paste or drag it straight into the AI tool you\'re using.<br><span class="fd2">No exporting, no digging through Downloads. Your references go where the work happens.</span>'];
   const mobile=matchMedia('(max-width:860px)');
   let phase=-1,t0=0,raf=0,visible=false,lockUntil=0;
   const LEAD=1150;   // 切换标题选词后，等多久开始播放（毫秒）
