@@ -1175,9 +1175,13 @@ html.intro-on #top #hh,#top.hero-pre #hh{opacity:0;transform:translateY(12px)}
 #fdesc{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:3.4em;margin:14px auto 0!important;max-width:640px;text-align:center;font-size:17px;line-height:1.45}
 #fdesc b{font-weight:600;color:var(--ink)}
 #fdesc span{color:var(--muted)}
-#fwords{font-size:clamp(34px,4vw,58px)!important}
+
 #fcap{margin:22px auto 0!important}
-@media(min-width:861px){.stage-box{width:calc(.9*min(100%,880px,calc((100vh - 390px) * 680 / 540)))!important}}
+@media(min-width:861px){.stage-box{width:calc(.9*min(100%,880px,calc((100vh - 350px) * 680 / 540)))!important}}
+
+#fdesc{display:block!important;min-height:0!important;max-width:none!important;white-space:nowrap;font-size:15px!important;line-height:1.4!important;color:var(--muted)}
+#fdesc b{color:var(--ink);font-weight:600}
+@media(max-width:700px){#fdesc{white-space:normal}}
 </style>
 <script>
 (()=>{const r=document.documentElement;
@@ -1224,7 +1228,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   <div class="flow-sticky">
     <div class="wrap flow-inner">
       <p class="flow-eyebrow"><span class="fe-dot"></span>How Monsora works</p>
-      <h2 class="flow-title" id="fwords"><span class="fw-hl" id="fwHl" aria-hidden="true"><i></i></span><span class="fw-caret" id="fwCaret" aria-hidden="true"></span><button data-i="0">Magic Pick</button> <button data-i="1">AI Search</button> <button data-i="2">Drop &amp; Go</button></h2>
+      <h2 class="flow-title" id="fwords"><span class="fw-hl" id="fwHl" aria-hidden="true"><i></i></span><span class="fw-caret" id="fwCaret" aria-hidden="true"></span><button data-i="0">Pick.</button> <button data-i="1">Search.</button> <button data-i="2">Use.</button></h2>
       <div class="flow-cap" id="fcap">Hover anything on a page</div>
       <p class="flow-desc" id="fdesc"></p>
       <div class="stage-nav" id="stageNav"><button class="stage-arrow prev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="stage-box" id="stageBox"><div class="stage" id="fstage"></div></div><button class="stage-arrow next" type="button" aria-label="Next step"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
@@ -1530,9 +1534,9 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   const RANGE=[[.03,.335],[.42,.60],[.685,1]],   // Pick / Search / Use
         MS=[4600,4500,3600],                     // Pick / Search / Use 各自播多久
         HOLD=400;                                // 每步播完停多久
-  const DESC=['<b>Save images, videos and texts from any page, in one click.</b><span>No downloading, renaming or sorting. It even remembers where it came from.</span>',
-    '<b>Describe what you remember, and Monsora finds it.</b><span>No filenames, no tags. Even the exact moment inside a video.</span>',
-    '<b>Paste or drag it straight into the AI tool you\'re using.</b><span>No exporting, no digging through Downloads. Your references go where the work happens.</span>'];
+  const DESC=['<b>Magic Pick</b> — Save images, videos and texts from any page, in one click.',
+    '<b>AI Search</b> — Describe what you remember, and Monsora finds it.',
+    '<b>Drop &amp; Go</b> — Paste or drag it straight into the AI tool you\'re using.'];
   const mobile=matchMedia('(max-width:860px)');
   let phase=-1,t0=0,raf=0,visible=false,lockUntil=0;
   const LEAD=1150;   // 切换标题选词后，等多久开始播放（毫秒）
