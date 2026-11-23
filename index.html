@@ -1182,6 +1182,9 @@ html.intro-on #top #hh,#top.hero-pre #hh{opacity:0;transform:translateY(12px)}
 #fdesc{display:block!important;min-height:0!important;max-width:none!important;white-space:nowrap;font-size:15px!important;line-height:1.4!important;color:var(--muted)}
 #fdesc b{color:var(--ink);font-weight:600}
 @media(max-width:700px){#fdesc{white-space:normal}}
+
+#fdesc{margin:14px auto 0!important}
+#fcap{margin:18px auto 0!important}
 </style>
 <script>
 (()=>{const r=document.documentElement;
@@ -1229,8 +1232,8 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
     <div class="wrap flow-inner">
       <p class="flow-eyebrow"><span class="fe-dot"></span>How Monsora works</p>
       <h2 class="flow-title" id="fwords"><span class="fw-hl" id="fwHl" aria-hidden="true"><i></i></span><span class="fw-caret" id="fwCaret" aria-hidden="true"></span><button data-i="0">Pick.</button> <button data-i="1">Search.</button> <button data-i="2">Use.</button></h2>
-      <div class="flow-cap" id="fcap">Hover anything on a page</div>
       <p class="flow-desc" id="fdesc"></p>
+      <div class="flow-cap" id="fcap">Hover anything on a page</div>
       <div class="stage-nav" id="stageNav"><button class="stage-arrow prev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="stage-box" id="stageBox"><div class="stage" id="fstage"></div></div><button class="stage-arrow next" type="button" aria-label="Next step"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
       <div class="use-tools" id="useTools" aria-label="Works with these tools"></div>
     </div>
