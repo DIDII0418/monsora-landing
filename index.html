@@ -1555,9 +1555,19 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   let phase=-1,t0=0,raf=0,visible=false,lockUntil=0;
   const LEAD=1150;   // 切换标题选词后，等多久开始播放（毫秒）
   let prevPhase=-1;
+  /* the step copy slides up: the old lines leave upward, the new ones rise in from below */
+  let descTo=0;
+  function swapDesc(html){
+    clearTimeout(descTo);
+    if(!desc.innerHTML.trim()||matchMedia('(prefers-reduced-motion: reduce)').matches){desc.innerHTML=html;return}
+    desc.getAnimations().forEach(a=>a.cancel());
+    desc.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(-14px)',opacity:0}],{duration:200,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
+    descTo=setTimeout(()=>{desc.innerHTML=html;desc.getAnimations().forEach(a=>a.cancel());
+      desc.animate([{transform:'translateY(14px)',opacity:0},{transform:'translateY(0)',opacity:1}],{duration:340,easing:'cubic-bezier(.2,.8,.2,1)',fill:'both'})},200);
+  }
   function setPhase(i){
     if(i===phase)return;prevPhase=phase;phase=i;t0=performance.now()+((prevPhase===1&&i===2)?300:(prevPhase===0&&i===1)?520:LEAD);
-    desc.innerHTML=DESC[i];moveHl();
+    swapDesc(DESC[i]);moveHl();
   }
   function span(){return sec.offsetHeight-sticky.offsetHeight}
   function notchFromScroll(){
