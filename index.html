@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Monsora — The visual library for AI-native creators</title>
-<meta name="description" content="Save images, videos and prompts from anywhere on the web, then find them again by describing what you remember. Monsora is the visual library for AI-native creators.">
+<title>Monsora — The inspiration library for AI-native creators</title>
+<meta name="description" content="Save images, videos and texts from any page in one click, then find them by describing what you remember. Monsora is the inspiration library for AI-native creators.">
 <link rel="canonical" href="https://www.monsora.ai/">
 <meta name="monsora-api-base-url" content="https://api.monsora.ai">
 <meta property="og:site_name" content="Monsora">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.monsora.ai/">
-<meta property="og:title" content="Monsora — The visual library for AI-native creators">
-<meta property="og:description" content="Save images, videos and prompts from anywhere on the web, then find them again by describing what you remember. Monsora is the visual library for AI-native creators.">
+<meta property="og:title" content="Monsora — The inspiration library for AI-native creators">
+<meta property="og:description" content="Save images, videos and texts from any page in one click, then find them by describing what you remember. Monsora is the inspiration library for AI-native creators.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Monsora — The visual library for AI-native creators">
-<meta name="twitter:description" content="Save images, videos and prompts from anywhere on the web, then find them again by describing what you remember. Monsora is the visual library for AI-native creators.">
+<meta name="twitter:title" content="Monsora — The inspiration library for AI-native creators">
+<meta name="twitter:description" content="Save images, videos and texts from any page in one click, then find them by describing what you remember. Monsora is the inspiration library for AI-native creators.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
@@ -882,7 +882,7 @@ html.intro-on .hero .hero-logo{opacity:0;translate:0 14px}
 
 #fcap{margin:6px auto 10px!important}
 
-#fdesc{display:none!important}
+
 #fcap{margin:10px auto 0!important}
 
 .pk-toast{cursor:default}
@@ -1170,6 +1170,14 @@ html.intro-on #top #hh,#top.hero-pre #hh{opacity:0;transform:translateY(12px)}
 
 .btn .bi{width:18px;height:18px;margin-right:8px;vertical-align:-3px;flex:none}
 #hero-ctas .btn,.end-cta .btn{display:inline-flex;align-items:center}
+
+/* step copy: one strong line, one quieter line */
+#fdesc{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:3.4em;margin:14px auto 0!important;max-width:640px;text-align:center;font-size:17px;line-height:1.45}
+#fdesc b{font-weight:600;color:var(--ink)}
+#fdesc span{color:var(--muted)}
+#fwords{font-size:clamp(34px,4vw,58px)!important}
+#fcap{margin:22px auto 0!important}
+@media(min-width:861px){.stage-box{width:calc(.9*min(100%,880px,calc((100vh - 390px) * 680 / 540)))!important}}
 </style>
 <script>
 (()=>{const r=document.documentElement;
@@ -1191,8 +1199,8 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
 <header class="hero hero-tag hero-pre" id="top">
   <div class="hero-blobs" id="heroBlobs" aria-hidden="true"><i class="bp"></i><i class="by"></i><i class="bp s"></i><i class="by s"></i></div>
   <div class="wrap">
-    <h1 id="tagH"><span class="hl"><span class="hl-in">The visual library</span></span><span class="hl"><span class="hl-in">for AI-native creators.</span></span></h1>
-    <h1 class="serif" id="hh" role="heading" aria-level="2"><span class="hl"><span class="hl-in">Save <span class="slot slot-mp slot-ic"><span class="tile"><svg viewBox="0 0 24 24" aria-label="Magic pick"><path d="M12 1.5c.5 4.8 2.9 7.8 8.6 10.5-5.7 2.7-8.1 5.7-8.6 10.5-.5-4.8-2.9-7.8-8.6-10.5C9.1 9.3 11.5 6.3 12 1.5Z" fill="currentColor"/><path d="M19.5 2.2c.2 1.5.9 2.4 2.5 3.1-1.6.7-2.3 1.6-2.5 3.1-.2-1.5-.9-2.4-2.5-3.1 1.6-.7 2.3-1.6 2.5-3.1Z" fill="currentColor"/></svg></span></span> what inspires you,</span></span><span class="hl"><span class="hl-in">find it <span class="slot slot-ai slot-ic"><span class="tile"><svg viewBox="0 0 24 24"><path d="M11 4.5A6.5 6.5 0 1 0 17.5 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="m20 20-4.2-4.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M17 1.8l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="currentColor"/></svg></span></span> by describing</span></span><span class="hl"><span class="hl-in">what you <em>remember.</em> <span class="slot"><span class="tile"><img alt=""></span></span></span></span></h1>
+    <h1 id="tagH"><span class="hl"><span class="hl-in">The inspiration library</span></span><span class="hl"><span class="hl-in">for AI-native creators</span></span></h1>
+    <h1 class="serif" id="hh" role="heading" aria-level="2"><span class="hl"><span class="hl-in">Save <span class="slot slot-mp slot-ic"><span class="tile"><svg viewBox="0 0 24 24" aria-label="Magic pick"><path d="M12 1.5c.5 4.8 2.9 7.8 8.6 10.5-5.7 2.7-8.1 5.7-8.6 10.5-.5-4.8-2.9-7.8-8.6-10.5C9.1 9.3 11.5 6.3 12 1.5Z" fill="currentColor"/><path d="M19.5 2.2c.2 1.5.9 2.4 2.5 3.1-1.6.7-2.3 1.6-2.5 3.1-.2-1.5-.9-2.4-2.5-3.1 1.6-.7 2.3-1.6 2.5-3.1Z" fill="currentColor"/></svg></span></span> what inspires you.</span></span><span class="hl"><span class="hl-in">Find it <span class="slot slot-ai slot-ic"><span class="tile"><svg viewBox="0 0 24 24"><path d="M11 4.5A6.5 6.5 0 1 0 17.5 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="m20 20-4.2-4.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M17 1.8l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="currentColor"/></svg></span></span> when it matters. <span class="slot"><span class="tile"><img alt=""></span></span></span></span></h1>
     <div class="rise"><div class="ctas" id="hero-ctas"><a class="btn btn-p" href="#download"><svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download for Mac</a><a class="btn btn-g" href="#download"><svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8.4h8.6M8.9 13.8 4.6 6.4M15.1 13.8l-4.3 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Chrome extension</a></div></div>
   </div>
 </header>
@@ -1216,9 +1224,9 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   <div class="flow-sticky">
     <div class="wrap flow-inner">
       <p class="flow-eyebrow"><span class="fe-dot"></span>How Monsora works</p>
-      <h2 class="flow-title" id="fwords"><span class="fw-hl" id="fwHl" aria-hidden="true"><i></i></span><span class="fw-caret" id="fwCaret" aria-hidden="true"></span><button data-i="0">Pick.</button> <button data-i="1">Search.</button> <button data-i="2">Use.</button></h2>
+      <h2 class="flow-title" id="fwords"><span class="fw-hl" id="fwHl" aria-hidden="true"><i></i></span><span class="fw-caret" id="fwCaret" aria-hidden="true"></span><button data-i="0">Magic Pick</button> <button data-i="1">AI Search</button> <button data-i="2">Drop &amp; Go</button></h2>
       <div class="flow-cap" id="fcap">Hover anything on a page</div>
-      <p class="flow-desc" id="fdesc">Click what you like on any page, then press Magic pick.</p>
+      <p class="flow-desc" id="fdesc"></p>
       <div class="stage-nav" id="stageNav"><button class="stage-arrow prev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="stage-box" id="stageBox"><div class="stage" id="fstage"></div></div><button class="stage-arrow next" type="button" aria-label="Next step"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
       <div class="use-tools" id="useTools" aria-label="Works with these tools"></div>
     </div>
@@ -1232,7 +1240,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
 <div class="endwrap" id="download">
   <section class="end-cta">
     <div class="csw" id="cardSwap" aria-hidden="true"><div class="csw-stage"></div></div>
-    <h2><span>Save what <em>moves you.</em></span><span>Find it when it <em>matters.</em></span></h2>
+    <h2><span>See it. Pick it.</span><span>Say it. Find it.</span></h2>
     <div class="end-btns"><a class="btn btn-p" href="#download"><svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download for Mac</a><a class="btn btn-g" href="#download"><svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8.4h8.6M8.9 13.8 4.6 6.4M15.1 13.8l-4.3 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Chrome extension</a></div>
   </section>
   <footer class="end-foot">
@@ -1522,14 +1530,16 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   const RANGE=[[.03,.335],[.42,.60],[.685,1]],   // Pick / Search / Use
         MS=[4600,4500,3600],                     // Pick / Search / Use 各自播多久
         HOLD=400;                                // 每步播完停多久
-  const DESC=['Click what you like on any page, then press Magic pick.','Describe what you remember. Monsora finds the image, the line, or the exact moment.','Drag what you found straight into the tool you\'re working in.'];
+  const DESC=['<b>Save images, videos and texts from any page, in one click.</b><span>No downloading, renaming or sorting. It even remembers where it came from.</span>',
+    '<b>Describe what you remember, and Monsora finds it.</b><span>No filenames, no tags. Even the exact moment inside a video.</span>',
+    '<b>Paste or drag it straight into the AI tool you\'re using.</b><span>No exporting, no digging through Downloads. Your references go where the work happens.</span>'];
   const mobile=matchMedia('(max-width:860px)');
   let phase=-1,t0=0,raf=0,visible=false,lockUntil=0;
   const LEAD=1150;   // 切换标题选词后，等多久开始播放（毫秒）
   let prevPhase=-1;
   function setPhase(i){
     if(i===phase)return;prevPhase=phase;phase=i;t0=performance.now()+((prevPhase===1&&i===2)?300:(prevPhase===0&&i===1)?520:LEAD);
-    desc.textContent=DESC[i];moveHl();
+    desc.innerHTML=DESC[i];moveHl();
   }
   function span(){return sec.offsetHeight-sticky.offsetHeight}
   function notchFromScroll(){
