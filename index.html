@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Monsora — The inspiration library for AI-native creators</title>
+<style>body{zoom:var(--z,1)}</style>
+<script>/* screens wider than 1440: the whole page scales up with the width, up to 1.33x (about 1920) */
+(function(){const set=()=>{const z=innerWidth>1440?Math.min(innerWidth/1440,1.33):1;window.__Z=z;document.documentElement.style.setProperty('--z',z)};set();addEventListener('resize',set)})();</script>
+
 <meta name="description" content="Save images, videos and texts from any page in one click, then find them by describing what you remember. Monsora is the inspiration library for AI-native creators.">
 <link rel="canonical" href="https://www.monsora.ai/">
 <meta name="monsora-api-base-url" content="https://api.monsora.ai">
@@ -232,7 +236,7 @@ html.intro-on.intro-head #site-header{opacity:1;translate:0 0;transition:opacity
 
 /* ===== Flow: scroll-driven Pick → Search → Use ===== */
 .flow{position:relative;height:2700px}
-.flow-sticky{position:sticky;top:max(76px,calc((100vh - 900px)/2 + 38px));height:min(900px,calc(100vh - 76px));display:flex;align-items:center}
+.flow-sticky{position:sticky;top:max(76px,calc((calc(100vh / var(--z,1)) - 900px)/2 + 38px));height:min(900px,calc(calc(100vh / var(--z,1)) - 76px));display:flex;align-items:center}
 .flow-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:center;width:100%}
 .flow-copy h2{font-size:clamp(44px,5vw,72px);line-height:1;margin-bottom:36px}
 .flow-copy .sub{margin-bottom:36px}
@@ -249,7 +253,7 @@ html.intro-on.intro-head #site-header{opacity:1;translate:0 0;transition:opacity
 .fbar{display:block;height:3px;border-radius:3px;background:rgba(20,20,20,.07);margin-top:10px;overflow:hidden}
 .fbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--yellow))}
 .flow-demo{display:flex;flex-direction:column;align-items:center;gap:18px}
-.stage-box{position:relative;width:min(100%,880px,calc((min(900px,100vh - 76px) - 250px)*680/540));aspect-ratio:680/540}
+.stage-box{position:relative;width:min(100%,880px,calc((min(900px,calc(100vh / var(--z,1)) - 76px) - 250px)*680/540));aspect-ratio:680/540}
 .stage{position:absolute;left:0;top:0;width:680px;height:540px;transform-origin:0 0;transform:scale(var(--k,1))}
 .stage .e{position:absolute;box-sizing:border-box}
 .layer{position:absolute;inset:0;transform-origin:50% 50%}
@@ -454,7 +458,7 @@ html.intro-on .happ{opacity:0;translate:-50% 120px}
 
 /* ===== Problem: the pile (Saved 2,847 · Found 0) ===== */
 .problem.pinned{height:1940px;position:relative;text-align:center}
-.problem-sticky{position:sticky;top:max(76px,calc((100vh - 900px)/2 + 38px));min-height:min(900px,calc(100vh - 76px));display:flex;align-items:center}
+.problem-sticky{position:sticky;top:max(76px,calc((calc(100vh / var(--z,1)) - 900px)/2 + 38px));min-height:min(900px,calc(calc(100vh / var(--z,1)) - 76px));display:flex;align-items:center}
 .problem-sticky>.wrap{width:100%}
 .pile-row{display:grid;grid-template-columns:1fr;gap:48px;align-items:center;margin-top:72px;text-align:left}
 .pile{position:relative;height:500px;max-width:1000px;width:100%;margin:0 auto;border-radius:0;background:none;box-shadow:none;overflow:visible}
@@ -585,7 +589,7 @@ html.intro-on .happ{opacity:0;translate:-50% 120px}
 .end-cta{background:var(--bg);box-shadow:0 30px 60px -20px rgba(0,0,0,.45)}
 
 /* ending CTA is its own full screen */
-.end-cta{min-height:max(900px,100vh);padding:0 24px}
+.end-cta{min-height:max(900px,calc(100vh / var(--z,1)));padding:0 24px}
 
 /* ===== Pick step, matched to the real Magic Pick UI ===== */
 .url-blank{flex:0 1 300px!important;height:18px;border-radius:6px;background:#ebe8e1!important}
@@ -705,7 +709,7 @@ html.intro-on .happ{opacity:0;translate:-50% 120px}
 #stageBox.off,#fcap.off{opacity:0;transform:translateY(14px)}
 
 /* first screen: fill the window under the header and centre the copy in what is visible */
-.hero{height:calc(100vh - 77px)!important;min-height:680px;max-height:1000px}
+.hero{height:calc(calc(100vh / var(--z,1)) - 77px)!important;min-height:680px;max-height:1000px}
 /* the tilted image floats after "remember." without pushing the line off-centre */
 #hh .slot:not(.slot-ic){width:0!important;margin:0!important}
 #hh .slot:not(.slot-ic) .tile{margin-left:.3em!important}
@@ -771,8 +775,8 @@ html.intro-on .hero .hero-logo{opacity:0;translate:0 14px}
 
 /* fit Pick/Search/Use in one laptop screen (e.g. 14" MacBook, ~1512×865), clear of the floating header */
 @media (min-width:861px){
-  .flow-sticky{height:auto!important;min-height:100vh;padding:104px 0 48px;box-sizing:border-box}
-  .stage-box{width:min(100%,880px,calc((100vh - 300px) * 680 / 540))!important}
+  .flow-sticky{height:auto!important;min-height:calc(100vh / var(--z,1));padding:104px 0 48px;box-sizing:border-box}
+  .stage-box{width:min(100%,880px,calc((calc(100vh / var(--z,1)) - 300px) * 680 / 540))!important}
 }
 
 .problem h2{line-height:1.08}
@@ -898,7 +902,7 @@ html.intro-on .hero .hero-logo{opacity:0;translate:0 14px}
 .vr-in{height:240px}
 .vr-band{top:244px;height:78px}
 /* all three steps at 90% */
-.stage-box{width:calc(.9*min(100%,880px,calc((100vh - 300px) * 680 / 540)))!important;margin-left:auto;margin-right:auto}
+.stage-box{width:calc(.9*min(100%,880px,calc((calc(100vh / var(--z,1)) - 300px) * 680 / 540)))!important;margin-left:auto;margin-right:auto}
 
 .use-tools{display:flex;justify-content:center;gap:16px;height:48px;align-items:center;margin:-94px auto 0;position:relative;z-index:2;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
 .use-tools.on{opacity:1;transform:none}
@@ -1121,7 +1125,7 @@ html.intro-on #tagH .hl-in{transform:translateY(112%)}
 
 #top #hh{color:#8a877f!important}
 
-#top #hero-ctas{margin-top:76px!important;gap:14px}
+#top #hero-ctas{margin-top:100px!important;gap:14px}
 #top #hero-ctas .btn{font-size:17px!important;padding:16px 30px!important;height:auto!important;border-radius:999px}
 
 #newWay,.nw-line{display:none!important}   /* "There's a new way." and its line: off for now */
@@ -1177,7 +1181,7 @@ html.intro-on #top #hh,#top.hero-pre #hh{opacity:0;transform:translateY(12px)}
 #fdesc span{color:var(--muted)}
 
 #fcap{margin:22px auto 0!important}
-@media(min-width:861px){.stage-box{width:calc(.9*min(100%,880px,calc((100vh - 350px) * 680 / 540)))!important}}
+@media(min-width:861px){.stage-box{width:calc(.9*min(100%,880px,calc((calc(100vh / var(--z,1)) - 350px) * 680 / 540)))!important}}
 
 #fdesc{display:block!important;min-height:0!important;max-width:none!important;white-space:nowrap;font-size:15px!important;line-height:1.4!important;color:var(--muted)}
 #fdesc b{color:var(--ink);font-weight:600}
@@ -1196,6 +1200,32 @@ html.intro-on #top #hh,#top.hero-pre #hh{opacity:0;transform:translateY(12px)}
 #fdesc{margin-top:8px!important}
 #fcap{margin-top:12px!important}
 #stageNav{margin-top:-14px}
+
+/* option 3: each step's shortcut sits under its word; the active one lights up */
+#fcap{display:none!important}
+#fwords{margin-bottom:58px!important}
+#fwords button{position:relative}
+.wkey{position:absolute;left:50%;top:100%;transform:translate(-50%,10px);display:flex;gap:5px;pointer-events:none;letter-spacing:0;line-height:1}
+.wkey kbd{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;border-radius:8px;font:600 14px var(--sans);color:#a9a69e;
+  background:linear-gradient(#fff,#f3f2ee);box-shadow:inset 0 -2px 0 rgba(20,20,20,.06),0 0 0 1px #e2e0da,0 2px 0 #dcdad4;transition:color .3s,box-shadow .3s,transform .3s}
+#fwords button.on .wkey kbd{color:#1f1e1b;box-shadow:inset 0 -2px 0 rgba(20,20,20,.08),0 0 0 1px #d6d3cc,0 3px 0 #cfcdc6,0 6px 12px rgba(20,20,20,.1);transform:translateY(-1px)}
+#fdesc{margin-top:0!important}
+#stageNav{margin-top:6px}
+
+/* shortcuts off for now: no keycap row, no keys under the words */
+.wkey{display:none!important}
+#fwords{margin-bottom:0!important}
+#fdesc{margin-top:12px!important}
+#stageNav{margin-top:10px}
+.vpill .skey{margin-left:auto;display:flex;gap:4px;flex:none}
+.vpill .skey kbd{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;font:600 11px var(--sans);color:#8a867f;
+  background:linear-gradient(#fff,#f3f2ee);box-shadow:inset 0 -1.5px 0 rgba(20,20,20,.06),0 0 0 1px #e2e0da,0 1.5px 0 #dcdad4;transition:transform .12s,box-shadow .12s,color .12s,background .12s}
+.vpill.kp .skey kbd{color:#fff;background:var(--purple);box-shadow:0 0 0 1px var(--purple);transform:translateY(1.5px)}
+/* tighter hand-off from the pile to "How Monsora works" */
+#problem{padding-bottom:0!important}#problem .problem-sticky>.wrap{padding-bottom:0!important}#flow{margin-top:-60px}
+/* footer M: same colour as "onsora"; eyes kept, toned down to match */
+.ef-word .ef-wm{opacity:1!important}.ef-word .ef-wm>path{fill:#262624}.ef-word .ef-wm>g:first-of-type{fill:#3a3a37}.ef-word .ef-wm .wm-p{fill:#1c1c1b}
+.end-foot .ef-word span{padding-top:.2em!important}
 </style>
 <script>
 (()=>{const r=document.documentElement;
@@ -1242,7 +1272,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   <div class="flow-sticky">
     <div class="wrap flow-inner">
       <p class="flow-eyebrow"><span class="fe-dot"></span>How Monsora works</p>
-      <h2 class="flow-title" id="fwords"><span class="fw-hl" id="fwHl" aria-hidden="true"><i></i></span><span class="fw-caret" id="fwCaret" aria-hidden="true"></span><button data-i="0">Pick.</button> <button data-i="1">Search.</button> <button data-i="2">Use.</button></h2>
+      <h2 class="flow-title" id="fwords"><span class="fw-hl" id="fwHl" aria-hidden="true"><i></i></span><span class="fw-caret" id="fwCaret" aria-hidden="true"></span><button data-i="0">Pick.<span class="wkey" aria-hidden="true"><kbd>⌘</kbd><kbd>B</kbd></span></button> <button data-i="1">Search.<span class="wkey" aria-hidden="true"><kbd>⌘</kbd><kbd>K</kbd></span></button> <button data-i="2">Use.<span class="wkey" aria-hidden="true"><kbd>⌘</kbd><kbd>V</kbd></span></button></h2>
       <p class="flow-desc" id="fdesc"></p>
       <div class="flow-cap" id="fcap">Hover anything on a page</div>
       <div class="stage-nav" id="stageNav"><button class="stage-arrow prev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="stage-box" id="stageBox"><div class="stage" id="fstage"></div></div><button class="stage-arrow next" type="button" aria-label="Next step"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
@@ -1263,7 +1293,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   </section>
   <footer class="end-foot">
     
-<div class="ef-word" aria-hidden="true"><span><svg class="ef-wm" viewBox="0 0 1162 589"><path fill="#bdb4ff" d="M88.3 585.5C24.8 574.0 -10.4 509.7 6.4 436.0C33.0 319.9 137.5 274.3 244.0 332.5C268.1 345.7 276.6 346.4 288.5 335.9C292.5 332.4 319.2 292.8 344.5 253.0C366.7 218.0 384.4 190.7 391.8 180.0C464.1 75.3 509.1 34.4 564.3 23.0C621.4 11.3 670.3 29.6 687.9 69.4C708.3 115.8 682.1 183.9 612.1 266.0C587.4 294.9 582.7 306.3 589.4 320.5C597.6 337.8 612.9 340.6 631.2 328.2C675.3 298.2 693.7 277.0 728.0 217.0C805.5 81.6 855.9 28.5 925.7 8.6C1036.8 -23.1 1116.9 76.6 1061.8 178.0C1048.5 202.5 1025.7 228.5 992.7 256.7C965.8 279.7 959.6 292.6 967.3 309.4C977.2 331.0 989.7 333.1 1021.2 318.4C1056.8 301.7 1097.2 304.9 1123.0 326.2C1165.5 361.5 1172.2 434.3 1137.7 486.2C1110.3 527.3 1044.4 561.3 999.5 557.4C940.2 552.3 900.7 517.1 874.0 445.5C852.5 388.0 823.7 370.9 780.1 389.9C755.5 400.6 731.9 419.5 682.0 468.6C622.0 527.6 593.4 543.4 531.7 551.5C471.5 559.3 454.4 543.9 434.5 464.2C423.1 418.2 409.3 405.6 371.0 405.7C330.2 405.7 310.1 420.6 258.8 488.4C248.7 501.6 236.6 517.1 231.7 522.7C191.0 569.9 135.7 594.1 88.3 585.5Z"/><g fill="#fff"><ellipse cx="598" cy="100" rx="40" ry="46"/><ellipse cx="968" cy="88" rx="40" ry="46"/></g><g fill="#141414"><circle class="wm-p" cx="603" cy="105" r="21"/><circle class="wm-p" cx="973" cy="93" r="21"/></g></svg>onsora</span></div>
+<div class="ef-word" aria-hidden="true"><span>Monsora</span></div>
     <div class="ef-in"><div class="ef-bottom">
         <div class="ef-left"><a class="ef-logo2" href="#top" aria-label="Monsora — back to top"><svg viewBox="0 18 100 64" aria-hidden="true"><g fill="currentColor"><rect x="-22" y="-13" width="44" height="26" rx="7" transform="translate(27 50.5) rotate(-48.8)"/><rect x="-22" y="-13" width="44" height="26" rx="7" transform="translate(73 50.5) rotate(48.8)"/></g></svg>Monsora</a></div>
         <div class="ef-right"><a href="/legal/privacy">Privacy</a><a href="/legal/terms">Terms</a><i></i><nav class="socials" aria-label="Follow Monsora">
@@ -1300,7 +1330,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
     const lt=document.querySelector('#logo-type'),wr=txt.getBoundingClientRect();
     let tf='translateY(-40vh) scale(.25)';
     if(lt){const lr=lt.getBoundingClientRect(),ls=lt.querySelector('.txt')||lt,lb=ls.getBoundingClientRect();
-      const k=lb.height/wr.height||.25;tf=`translate(${(lb.left+lb.width/2)-(wr.left+wr.width/2)}px,${(lb.top+lb.height/2)-(wr.top+wr.height/2)}px) scale(${k.toFixed(3)})`}
+      const k=lb.height/wr.height||.25;tf=`translate(${((lb.left+lb.width/2)-(wr.left+wr.width/2))/(window.__Z||1)}px,${((lb.top+lb.height/2)-(wr.top+wr.height/2))/(window.__Z||1)}px) scale(${k.toFixed(3)})`}
     word.style.transformOrigin='50% 50%';
     /* then the word moves up into the header's logo, and only once it has landed does the new headline appear */
     /* the word drifts up and fades; once it is gone the header comes down and the headline rises */
@@ -1357,7 +1387,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
              [[476,196,92,92],'pk-doc','<span class="dk-tag">Text</span><b class="dk-t">Why grain makes digital posters feel warmer</b><span class="dk-b">Film grain breaks up flat colour fields so the eye reads them as a physical surface rather than a screen.</span><span class="dk-src"><i>M</i>medium.com · Nov 9</span>',0],
              [[476,294,92,50],'i08','<span class="pk-lbl">Image</span>',0],
              [[574,132,92,92],'i10','<span class="pk-lbl">Image</span>',1],
-             [[574,230,92,122],'i04','<span class="pk-lbl">Image</span>',1]];
+             [[574,230,92,122],'i11','<span class="pk-lbl">Image</span>',1]];
   const olds=OLD.map(o=>({el:el('pk-item '+o[1],L1,o[0],o[2]),r:o[0],col:o[3]}));
   el('pk-foot',L1,[463,352,216,78]);const mbtn=el('mbtn pk-mbtn',L1,[476,384,190,34],'✦ Magic pick <span class="k">⌘B</span>');
   // what gets picked, and where it lands in the panel
@@ -1372,7 +1402,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   const rc=el('vres',L2,[24,122,632,384]);
   const rTitle=el('vr-t',L2,[40,132,340,18],'');rTitle.style.display='none';
   const rChip=el('vr-chip',L2,[440,129,200,16],'1 matching moment');
-  const sbar=el('vpill',L2,[60,20,440,42],'<span class="sic"><svg class="s-plain" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4.2-4.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><svg class="s-ai" viewBox="0 0 24 24"><path d="M11 4.5A6.5 6.5 0 1 0 17.5 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="m20 20-4.2-4.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M17 1.8l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="currentColor"/></svg></span>'+'<span class="vchip">'+'<svg viewBox="0 0 24 24" width="15" height="15"><rect x="3" y="6" width="13" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 10 5-3v10l-5-3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'+'Videos <i>×</i></span><span class="q"></span>');const q=sbar.querySelector('.q'),vchip=sbar.querySelector('.vchip');
+  const sbar=el('vpill',L2,[60,20,440,42],'<span class="sic"><svg class="s-plain" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4.2-4.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><svg class="s-ai" viewBox="0 0 24 24"><path d="M11 4.5A6.5 6.5 0 1 0 17.5 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="m20 20-4.2-4.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M17 1.8l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="currentColor"/></svg></span>'+'<span class="vchip">'+'<svg viewBox="0 0 24 24" width="15" height="15"><rect x="3" y="6" width="13" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 10 5-3v10l-5-3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'+'Videos <i>×</i></span><span class="q"></span><span class="skey"><kbd>⌘</kbd><kbd>K</kbd></span>');const q=sbar.querySelector('.q'),vchip=sbar.querySelector('.vchip');
   const chips=['<svg viewBox="0 0 24 24" width="15" height="15"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="2" fill="currentColor"/><path d="m4 18 5-5 4 4 3-3 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>','<svg viewBox="0 0 24 24" width="15" height="15"><rect x="3" y="6" width="13" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 10 5-3v10l-5-3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>','<b>T</b>'].map((c,i)=>el('vbtn',L2,[510+i*38,24,34,34],c));
   const G=['i04','i09','i03','i11','i08','odm','i07','i01'];
   const grid=G.map((g,i)=>{const r=[24+(i%4)*160,124+Math.floor(i/4)*160,148,148];const c=el('card '+g,L2,r,g==='odm'?'<span class="play"></span><span class="dur">1:02</span>':'');return{el:c,r}});
@@ -1420,7 +1450,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   el('vt-lbl',L3,[0,452,680,14],'Works where you work');
   el('vtools',L3,[206,474,268,30],"<img src=\"assets/img/tools/higgsfield.png\" alt=\"Higgsfield\" title=\"Higgsfield\"><img src=\"assets/img/tools/runway.png\" alt=\"Runway\" title=\"Runway\"><img src=\"assets/img/tools/chatgpt.png\" alt=\"ChatGPT\" title=\"ChatGPT\"><img src=\"assets/img/tools/gemini.png\" alt=\"Gemini\" title=\"Gemini\"><img src=\"assets/img/tools/midjourney.png\" alt=\"Midjourney\" title=\"Midjourney\"><img src=\"assets/img/tools/lovart.png\" alt=\"Lovart\" title=\"Lovart\"><img src=\"assets/img/tools/google-flow.png\" alt=\"Google Flow\" title=\"Google Flow\"><img src=\"assets/img/tools/kling-ai.png\" alt=\"Kling AI\" title=\"Kling AI\">");
   {const ut=document.getElementById('useTools'),vt=L3.querySelector('.vtools');if(ut&&vt){ut.innerHTML=vt.innerHTML;vt.style.display='none';[...L3.querySelectorAll('.vt-lbl')].forEach(x=>x.style.display='none')}}
-  const ghost=el('card i09',stage,[0,0,10,10],'');ghost.style.zIndex=40;
+  const ghost=el('card i09',stage,[0,0,10,10],'');ghost.style.zIndex=40;ghost.style.pointerEvents='none';
 
   const cur=el('cursor',stage,[600,480,22,22],'<svg viewBox="0 0 24 24"><path d="M4 2.5v17.2l4.6-4.4 3 6.8 3-1.3-3-6.6h6.5Z" fill="#15130f" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>');
 
@@ -1448,6 +1478,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
     toSearch:[.36,.42],      // Pick 淡出、Search 淡入
     // —— Search ——
     focus:[.42,.60],         // 搜索框有光标的区间
+    keyK:[.395,.425],        // 按下 ⌘K 打开搜索（键帽按下的区间）
     chipVideo:.425,          // 先点视频按钮，标签切到 Videos（再开始打字）
     typeA:[.43,.465],        // 打字 “open door”
     videoBox:[.43,.44],      // 一开始打字，结果框就出现
@@ -1470,7 +1501,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   // 光标路径：[p, x, y]，两点之间自动缓动
   const CK=[[0,600,480],[.04,600,480],[.09,166,206],[.115,26,330],[.15,177,330],[.21,384,206],[.26,240,401],[.34,240,401],[.40,330,41],[.60,330,41],[.63,330,200],[.66,340,215],[.70,340,215],[.84,226,246],[.93,612,316],[1,612,314]];
   // 光标按下的时刻
-  const CLICKS=[.09,.15,.21,.26,.40,.70,.93];
+  const CLICKS=[.09,.15,.21,.26,.70,.93];
   // 标题下的快捷键（每一步显示一组）：Pick / Search / Use
   const KEYS=['⌘ B','⌘ K','⌘ V'];
   function phaseOf(p){return p<.39?0:p<.68?1:2}
@@ -1508,7 +1539,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
     const typing=(p>=T.focus[0]&&p<T.typeA[1]+.005)||(p>=T.typeB[0]&&p<T.typeB[1]+.005);
     q.innerHTML=txt?(sel?'<span class="qsel">'+txt+'</span>':txt+(typing?'<span class="car"></span>':'')):(p>=T.focus[0]?'<span class="car"></span>':'<span class="ph-t">Describe something you saved…</span>');
     setAI(txt.length>=3);
-    sbar.classList.toggle('focus',p>=T.focus[0]&&p<T.focus[1]);
+    sbar.classList.toggle('focus',p>=T.focus[0]&&p<T.focus[1]);sbar.classList.toggle('kp',p>=T.keyK[0]&&p<T.keyK[1]);
     const mode=p>=T.chipImage?'img':p>=T.chipVideo?'vid':(p>=T.toSearch[0]?'img':'');
     setChip(mode);chips.forEach((c,i)=>c.classList.toggle('on',(i===0&&mode==='img')||(i===1&&mode==='vid')));
     const box=ease(seg(p,T.videoBox[0],T.videoBox[1]));
@@ -1801,7 +1832,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   let phase='idle',fallT0=0,fallFrom=null,srcs=[];
   function setSrcs(){const cur=img.currentSrc||img.src;let others=IM.filter(s=>s!==cur);srcs=tg.map((_,i)=>i===MID?cur:others[(i<MID?i:i-1)%others.length]);
     cards.forEach((c,i)=>{if(c.firstChild.src!==srcs[i])c.firstChild.src=srcs[i]})}
-  function put(c,cx,cy,w,h,r,op,rad){c.style.display='block';c.style.width=w+'px';c.style.height=h+'px';c.style.borderRadius=rad+'px';c.style.opacity=op;c.style.transform=`translate(${cx-w/2}px,${cy-h/2}px) rotate(${r}deg)`}
+  function put(c,cx,cy,w,h,r,op,rad){c.style.display='block';c.style.width=w+'px';c.style.height=h+'px';c.style.borderRadius=rad+'px';c.style.opacity=op;const Z=window.__Z||1;c.style.transform=`translate(${cx/Z-w/2}px,${cy/Z-h/2}px) rotate(${r}deg)`}
   const ctas=document.getElementById('hero-ctas');
   function rowDocY(){const r=document.getElementById('hero-ctas').getBoundingClientRect();return r.bottom+scrollY+150}
   const S_OPEN=170,S_FALL=240; // px of scroll: row fully fanned by S_OPEN; starts falling after S_FALL
@@ -1857,11 +1888,11 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   pile.addEventListener('pointermove',e=>{
     if(!drag)return;const now=performance.now(),dt=Math.max(1,now-drag.t);
     drag.vx=(e.clientX-drag.lx)/dt*1000;drag.vy=(e.clientY-drag.ly)/dt*1000;drag.lx=e.clientX;drag.ly=e.clientY;drag.t=now;
-    drag.d.style.left=(drag.l0+e.clientX-drag.x0)+'px';drag.d.style.bottom=(drag.b0-(e.clientY-drag.y0))+'px';
+    const Z=window.__Z||1;drag.d.style.left=(drag.l0+(e.clientX-drag.x0)/Z)+'px';drag.d.style.bottom=(drag.b0-(e.clientY-drag.y0)/Z)+'px';
     const tilt=Math.max(-25,Math.min(25,drag.vx/60));drag.d.style.setProperty('--r',(drag.r+tilt).toFixed(1)+'deg');
   });
   function release(){
-    if(!drag)return;const d=drag.d,pw=pile.clientWidth;let vx=drag.vx*.35,vy=-drag.vy*.35; // vy: up is +
+    if(!drag)return;const d=drag.d,pw=pile.clientWidth;let vx=drag.vx*.35/(window.__Z||1),vy=-drag.vy*.35/(window.__Z||1); // vy: up is +
     drag=null;d.classList.remove('lift');
     let x=parseFloat(d.style.left),b=parseFloat(d.style.bottom),r=parseFloat(d.style.getPropertyValue('--r'))||0;
     const sink=Math.random()<.4?-(20+Math.random()*40):0;
@@ -1895,7 +1926,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
     sx+=(px-sx)*.1;sy+=(py-sy)*.1;spot.style.transform=`translate(${sx.toFixed(1)}px,${sy.toFixed(1)}px)`;
     raf=(Math.abs(tx-x)>.001||Math.abs(ty-y)>.001||Math.abs(px-sx)>.5||Math.abs(py-sy)>.5)?requestAnimationFrame(tick):0}
   const onMove=e=>{const r=hero.getBoundingClientRect();if(r.bottom<0)return;
-    px=e.clientX-r.left;py=e.clientY-r.top;spot.classList.add('on');
+    px=(e.clientX-r.left)/(window.__Z||1);py=(e.clientY-r.top)/(window.__Z||1);spot.classList.add('on');
     tx=Math.max(-1,Math.min(1,(e.clientX-(r.left+r.width/2))/(r.width/2)));ty=Math.max(-1,Math.min(1,(e.clientY-(r.top+r.height/2))/(r.height/2)));
     if(!raf)raf=requestAnimationFrame(tick)};
   addEventListener('pointermove',onMove,{passive:true});addEventListener('mousemove',onMove,{passive:true});
@@ -1965,7 +1996,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
     el.style.transition='none';
     const rub=d=>160*Math.tanh(d/160);
     const mine=ev=>!!st.drag&&ev.pointerId===st.drag.pid;
-    const mv=ev=>{if(!mine(ev))return;const d=st.drag;d.dx=ev.clientX-d.x;d.dy=ev.clientY-d.y;const x=rub(d.dx),y=rub(d.dy);
+    const mv=ev=>{if(!mine(ev))return;const d=st.drag;d.dx=(ev.clientX-d.x)/(window.__Z||1);d.dy=(ev.clientY-d.y)/(window.__Z||1);const x=rub(d.dx),y=rub(d.dy);
       el.style.transform=`${slot(0)} translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(x*0.05).toFixed(2)}deg)`};
     const up=ev=>{if(!mine(ev))return;const d=st.drag;st.drag=null;unhook();
       const far=Math.hypot(d.dx,d.dy),quick=far/Math.max(1,performance.now()-d.t)>0.6;
@@ -1996,7 +2027,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   let pend=0;
   function reclone(){pend=0;const c=src.cloneNode(true);/* ids kept so the headline's #hh styles apply; the lens sits after the original, so lookups still find the real one first */
     const hr=hero.getBoundingClientRect(),wr=src.getBoundingClientRect();
-    c.style.left=(wr.left-hr.left)+'px';c.style.top=(wr.top-hr.top)+'px';c.style.width=wr.width+'px';inner.replaceChildren(c)}
+    {const Z=window.__Z||1;c.style.left=(wr.left-hr.left)/Z+'px';c.style.top=(wr.top-hr.top)/Z+'px';c.style.width=wr.width/Z+'px';}inner.replaceChildren(c)}
   new MutationObserver(()=>{if(!pend)pend=setTimeout(reclone,60)}).observe(src,{subtree:true,attributes:true,childList:true,characterData:true});
   addEventListener('resize',()=>{if(!pend)pend=setTimeout(reclone,60)});
   /* ── one spring, for everything that settles (after Bencho's lab/spring) ──
@@ -2027,7 +2058,7 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
   hero.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;
     const hr=h1.getBoundingClientRect(),over=e.clientX>=hr.left&&e.clientX<=hr.right&&e.clientY>=hr.top&&e.clientY<=hr.bottom;
     if(!over){if(on){on=false;lens.classList.remove('on')}return}
-    const r=hero.getBoundingClientRect();s.tx=e.clientX-r.left;s.ty=e.clientY-r.top;
+    const r=hero.getBoundingClientRect();s.tx=(e.clientX-r.left)/(window.__Z||1);s.ty=(e.clientY-r.top)/(window.__Z||1);
     if(!on){on=true;s.x=s.tx;s.y=s.ty;s.vx=s.vy=0;reclone();lens.classList.add('on')}run()});
   hero.addEventListener('pointerleave',()=>{on=false;lens.classList.remove('on')});
   addEventListener('scroll',()=>{if(on&&scrollY>40){on=false;lens.classList.remove('on')}},{passive:true});
@@ -2087,8 +2118,8 @@ setTimeout(()=>{if(r.classList.contains('intro-on')){r.classList.remove('intro-o
     const drawn=Math.max(0,Math.min(full,sy+vh*.62-top));
     /* fade once the next screen's middle reaches the screen's middle */
     const fade=clamp((fr.top+fr.height/2-vh/2)/(vh*.18));
-    line.style.top=top+'px';line.style.height=drawn+'px';line.style.opacity=(drawn>2?fade:0).toFixed(3);
-    line.style.left=(a.left+a.width/2)+'px';line.style.marginLeft='-.75px';
+    {const Z=window.__Z||1;line.style.top=top/Z+'px';line.style.height=drawn/Z+'px';}line.style.opacity=(drawn>2?fade:0).toFixed(3);
+    line.style.left=(a.left+a.width/2)/(window.__Z||1)+'px';line.style.marginLeft='-.75px';
   }
   const req=()=>{if(!raf)raf=requestAnimationFrame(f)};
   addEventListener('scroll',req,{passive:true});addEventListener('resize',req);setInterval(req,400);f();
